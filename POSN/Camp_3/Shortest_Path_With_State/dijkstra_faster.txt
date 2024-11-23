@@ -1,0 +1,4 @@
+dijkstra faster can detect negative weight cycle
+LOL
+vector<int> cnt;
+>=V detect

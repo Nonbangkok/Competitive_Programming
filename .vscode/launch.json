@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/nonbangkok/Documents/VS_code/ComProg/POSN/TOI",
+      "program": "/Users/nonbangkok/Documents/VS_code/ComProg/POSN/TOI/build/Debug/outDebug"
+    }
+  ]
+}
