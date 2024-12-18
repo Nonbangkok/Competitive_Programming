@@ -7,19 +7,24 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-int a[]={1,2,4,5,6};
+
+const ll M = 1000000000000000003;
+
+ll multiply(ll a,ll b){
+    ll res = 0;
+    while(b){
+        if(b&1)res = (res + a) % M;
+        a = ( a << 1) % M;
+        b >>= 1;
+    }
+    return res;
+}
+
 int main(){macos;
 
-    int ans=4,l=0,r=4,m;
-
-    while(l<r){
-        m=(l+r)/2;
-
-        if(a[m]<=ans)l=m+1;
-        else r=m;
-    }
-
-    cout << l << sp << a[l];
+    ll a,b;
+    cin >> a >> b;
+    cout << multiply(a,b);
 
     return 0;
 }

@@ -6,8 +6,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/nonbangkok/Documents/VS_code/ComProg/POSN/TOI",
-      "program": "/Users/nonbangkok/Documents/VS_code/ComProg/POSN/TOI/build/Debug/outDebug"
+      "cwd": "/Users/nonbangkok/Documents/VS_code/ComProg/POSN/Camp_2/D_C",
+      "program": "/Users/nonbangkok/Documents/VS_code/ComProg/POSN/Camp_2/D_C/build/Debug/outDebug"
     }
   ]
 }

@@ -144,7 +144,8 @@
     "execution": "cpp",
     "stdio.h": "c",
     "cassert": "cpp",
-    "__assert": "cpp"
+    "__assert": "cpp",
+    "random": "cpp"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }
