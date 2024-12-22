@@ -14,7 +14,7 @@ bool dp[N][N][3];
 string s;
 int main(){macos;
 
-    forr(i,0,20){
+    forr(t,0,20){
         cin >> n >> s;
         memset(dp,0,sizeof(dp));
         forr(i,0,n)dp[i][i][s[i]-'0']=1;

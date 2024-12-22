@@ -7,19 +7,22 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-
-const int N = 1e5+10;
-int n,q,m,dp[N];
-
 int main(){macos;
 
-    cin >> n >> q;
-    forr(i,1,n+1)cin >> dp[i],dp[i] += dp[i-1];
-    forl(i,n-1,0)dp[i] = min(dp[i],dp[i+1]);
+    ll t;
+    cin >> t;
+    while(t--){
+        ll n,a[3];
+        cin >> n >> a[0] >> a[1] >> a[2];
 
-    while(q--){
-        cin >> m;
-        cout << upper_bound(dp+1,dp+n+1,m)-dp-1 << endll;
+        ll d = n/(a[0]+a[1]+a[2]);
+        n -= d*(a[0]+a[1]+a[2]);
+        d *= 3;
+        while(n>0){
+            n-= a[d%3];
+            d++;
+        }
+        cout << d << endll;
     }
 
     return 0;

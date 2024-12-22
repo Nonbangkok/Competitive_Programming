@@ -7,63 +7,55 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-const int N=101;
 
 struct Non{
-    int v,w,oil,used;
+    int v,w,c,o;
 
-    bool operator <(const Non &rhs)const{
-        return w>rhs.w;
+    bool operator < (const Non &rhs)const{
+        if(w!=rhs.w)return w>rhs.w;
+        return v>rhs.v;
     }
 };
 
-struct path{
+struct Graph{
     int v,w;
 };
 
+const int N = 110;
+int n,m,st,des,cap,a,b;
+int cost[N],dis[2][N][N],c;
+vector<Graph> adj[N];
 priority_queue<Non> q;
-vector<path> adj[N];
-vector<int> value(N);
-int cost[N][N][2];
 
 int main(){macos;
 
-    forr(i,0,N)forr(j,0,N)forr(k,0,2)cost[i][j][k]=1e9;
-    int n,e,tmp,src,des,fuel,a,b,c;
     cin >> n;
-    forr(i,0,n)cin >> value[i];
-    cin >> src >> des >> fuel >> e;
-    src--;des--;
-
-    forr(i,0,e){
+    forr(i,1,n+1)cin >> cost[i];
+    cin >> st >> des >> cap >> m;
+    forr(i,0,m){
         cin >> a >> b >> c;
-        a--;b--;
         adj[a].push_back({b,c});
         adj[b].push_back({a,c});
     }
 
-    q.push({src,0,0,0});
-    cost[src][0][0]=0;
+    forr(i,1,n+1)forr(j,0,cap+1)dis[0][i][j] = dis[1][i][j] = 1e9;
+    q.push({st,dis[0][st][0]=0,0,0});
     while(!q.empty()){
-        auto [node,c,oil,used]=q.top();
+        auto [u,wei,used,oil] = q.top();
         q.pop();
 
-        if(cost[node][oil][used]<c)continue;
+        if(oil<cap&&dis[used][u][oil+1]>dis[used][u][oil]+cost[u])
+            q.push({u,dis[used][u][oil+1]=dis[used][u][oil]+cost[u],used,oil+1});
+        if(!used&&dis[1][u][cap]>dis[0][u][oil])
+            q.push({u,dis[1][u][cap]=dis[0][u][oil],1,cap});
 
-        if(!used&&cost[node][fuel][1]>cost[node][oil][used]){
-            q.push({node,cost[node][fuel][1]=cost[node][oil][used],fuel,1});
-        }
-        if(oil<fuel&&cost[node][oil+1][used]>cost[node][oil][used]+value[node]){
-            q.push({node,cost[node][oil+1][used]=cost[node][oil][used]+value[node],oil+1,used});
-        }
-
-        for(auto [v,w]:adj[node]){
-            if(oil>=w&&cost[v][oil-w][used]>cost[node][oil][used]){
-                q.push({v,cost[v][oil-w][used]=cost[node][oil][used],oil-w,used});
-            }
+        for(auto [v,w]:adj[u]){
+            if(oil-w>=0&&dis[used][v][oil-w]>dis[used][u][oil])
+                q.push({v,dis[used][v][oil-w]=dis[used][u][oil],used,oil-w});
         }
     }
-    cout << cost[des][fuel][1];
+
+    cout << dis[1][des][cap];
 
     return 0;
 }

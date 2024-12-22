@@ -8,18 +8,22 @@
 typedef long long ll;
 using namespace std;
 
-const int N = 1e5+10;
-int n,q,m,dp[N];
+const int N = 101;
+int a[N],b[N];
+int t,n;
 
 int main(){macos;
 
-    cin >> n >> q;
-    forr(i,1,n+1)cin >> dp[i],dp[i] += dp[i-1];
-    forl(i,n-1,0)dp[i] = min(dp[i],dp[i+1]);
+    cin >> t;
 
-    while(q--){
-        cin >> m;
-        cout << upper_bound(dp+1,dp+n+1,m)-dp-1 << endll;
+    while(t--){
+        cin >> n;
+        forr(i,0,n)cin >> a[i];
+        forr(i,0,n)cin >> b[i];
+
+        int ans = 0;
+        forr(i,0,n-1)if(a[i]>b[i+1])ans += a[i]-b[i+1];
+        cout << ans+a[n-1] << endll;
     }
 
     return 0;

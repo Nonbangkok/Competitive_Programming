@@ -9,31 +9,31 @@ typedef long long ll;
 using namespace std;
 
 const int N = 15;
-ll n,k,a[N],b[N],mn=LLONG_MAX;
+ll n,k,a[N],b[N],mn=LLONG_MAX,ans;
 
-void solve(ll i, ll salt,ll sweet,bool chk,ll p){
+void solve(ll i, ll sweet,ll salt,bool chk){
     if(i==n-1){
         if(!chk)return;
-        mn = min(mn,abs(salt-sweet));
+        mn = min(mn,abs(sweet-salt));
     }else{
-        solve(i+1,salt,sweet,chk||false,p);
-        solve(i+1,salt+a[i+1],sweet*b[i+1],chk||true,p);
-        if(p<k)solve(i+1,salt+a[i+1]*-1,sweet*ll(ceil(double(b[i+1])/2.00)),chk||true,p+1);
+        solve(i+1,sweet,salt,chk);
+        solve(i+1,sweet*a[i+1],salt+b[i+1],chk||true);
     }
 }
 
 int main(){macos;
 
-    cin >> n >> k;
+    cin >> n;
     forr(i,0,n){
         ll x,y;
         cin >> x >> y;
         a[i] = x;
         b[i] = y;
     }
-    solve(-1,0,1,false,0);
+    solve(-1,1,0,false);
 
-    cout << mn;
+    forr(i,1,mn+1)ans += (i*i*i-i*i+i);
+    cout << ans;
 
     return 0;
 }
