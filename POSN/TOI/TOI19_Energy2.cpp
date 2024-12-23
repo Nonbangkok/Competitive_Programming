@@ -7,19 +7,30 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-const int m=1e9+7;
 
-ll n,k,d,dp[302][302][11],A[302];
+const int M = 1e9+7;
+int n,k,d;
+ll dp[10][310][310],qs[310];
 
-int main() {macos;
+int main(){macos;
 
     cin >> n >> k >> d;
-    forr(i,0,n)cin >> A[i];
-    forr(i,1,n)A[i]+=A[i-1];
-    forr(i,0,n)forr(j,i,n)dp[i][j][1]=1;
-    forr(depth,2,k+1)forr(l,0,n)forr(r,l+1,n)forr(j,l,r)
-        if(abs(A[r]-(2*A[j])+A[l-1])<=d)dp[l][r][depth]=(dp[l][r][depth]+dp[l][j][depth-1]*dp[j+1][r][depth-1])%m;
-    cout << dp[0][n-1][k];
+    forr(i,1,n+1){
+        cin >> qs[i];
+        qs[i]+=qs[i-1];
+    }
+    forr(i,1,n+1)forr(j,1,n+1)dp[1][i][j] = 1LL;
+    forr(depth,2,k+1){
+        forr(sz,1,n)forr(l,1,n+1-sz){
+            int r = l+sz;
+            forr(k,l,r){
+                if(abs(qs[r]-2*qs[k]+qs[l-1])>d)continue;
+                dp[depth][l][r] = (dp[depth][l][r] + dp[depth-1][l][k]*dp[depth-1][k+1][r]) % M;
+            }
+        }
+    }
+
+    cout << dp[k][1][n];
 
     return 0;
 }

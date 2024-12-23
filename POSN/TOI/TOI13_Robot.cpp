@@ -8,48 +8,38 @@
 typedef long long ll;
 using namespace std;
 
-const int N=2001;
-int di[]={0,0,-1,1};
-int dj[]={-1,1,0,0};
+const int N = 2010;
 char A[N][N];
 int dis[N][N];
+int di[]={0,0,-1,1};
+int dj[]={-1,1,0,0};
+int n,m,cnt,ans;
+queue<pair<int,int>> q;
 
-int main() {macos;
+int main(){macos;
 
-    queue<pair<int,int>> q;
-    int n,m,cnt=0,ans=0;
     cin >> n >> m;
-    forr(i,0,n)cin >> A[i];
-    forr(i,0,n){
-        forr(j,0,m){
-            if(A[i][j]=='X')q.push({i,j});
-            else if(A[i][j]=='W')dis[i][j]=-1;
-            else dis[i][j]=int(1e9);
-        }
+    forr(i,0,n)forr(j,0,m){
+        cin >> A[i][j];
+        if(A[i][j]=='X'){
+            q.push({i,j});
+            dis[i][j] = 0;
+        } else dis[i][j] = 1e9;
     }
 
     while(!q.empty()){
-        auto [i,j]=q.front();
+        auto [i,j] = q.front();
         q.pop();
-        
+
+        if(A[i][j]=='A')cnt++,ans += dis[i][j],A[i][j] = 'E';
+
         forr(k,0,4){
-            int ik=i+di[k];
-            int jk=j+dj[k];
+            int ik = i+di[k];
+            int jk = j+dj[k];
 
-            if(ik<0||jk<0||ik>=n||jk>=m)continue;
-            if(dis[ik][jk]>dis[i][j]+1){
-                dis[ik][jk]=dis[i][j]+1;
-                q.push({ik,jk});
-            }
-        }
-    }
-
-    forr(i,0,n){
-        forr(j,0,m){
-            if(A[i][j]=='A'&&dis[i][j]!=int(1e9)){
-                ans+=dis[i][j];
-                cnt++;
-            }
+            if(ik<0||jk<0||ik>=n||jk>=m||A[ik][jk]=='W'||dis[ik][jk]<=dis[i][j]+1)continue;
+            dis[ik][jk]=dis[i][j]+1;
+            q.push({ik,jk});
         }
     }
 
