@@ -31,7 +31,7 @@ int main(){macos;
         forr(j,0,n){
             int tmp;
             cin >> tmp;
-            if(tmp)adj[i].push_back(j);
+            if(tmp)adj[i].push_back(j); 
         }
     }
 
