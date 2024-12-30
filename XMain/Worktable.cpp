@@ -8,41 +8,35 @@
 typedef long long ll;
 using namespace std;
 
-const int N = 2e3+10;
-int n,m,cnt;
-int di[]={-1,-1,-1,0,0,1,1,1};
-int dj[]={-1,0,1,-1,1,-1,0,1};
-char A[N][N];
-queue<pair<int,int>> q;
+struct Non{
+    int a,b,c,d;
+};
+
+const int N = 2e4+10;
+int n,m,k,p,a,b,c,d,mn,mnt;
+int dp[N][20];
+Non node[N];
 
 int main(){macos;
 
-    cin >> n >> m;
-    forr(i,0,n)forr(j,0,m)cin >> A[i][j];
-    
-    forr(i,0,n){
-        forr(j,0,m){
-            if(A[i][j]=='0')continue;
-            cnt++;
-            A[i][j]='0';
-            q.push({i,j});
-            while(!q.empty()){
-                auto [ix,jx] = q.front();
-                q.pop();
+    cin >> n >> m >> k >> p;
+    forr(i,0,k){
+        cin >> a >> b >> c >> d;
+        node[i] = {a,b,c,d};
+        forr(j,2,p+1)dp[i][j] = 1e9;
+        dp[i][1] = node[i].a+node[i].b-2;
+    }
 
-                forr(k,0,8){
-                    int ik = ix+di[k];
-                    int jk = jx+dj[k];
-
-                    if(ik<0||jk<0||ik>=n||jk>=m||A[ik][jk]=='0')continue;
-                    A[ik][jk]='0';
-                    q.push({ik,jk});
-                }
-            }
+    mn = m+n-2 ,mnt = 0;
+    forr(t,1,p+1)forr(i,0,k){
+        if(t!=1)forr(j,0,k)if(i!=j)dp[i][t] = min(dp[i][t],dp[j][t-1]+abs(node[j].c-node[i].a)+abs(node[j].d-node[i].b));
+        if(mn>dp[i][t]+m+n-(node[i].c+node[i].d)){
+            mn=dp[i][t]+m+n-(node[i].c+node[i].d);
+            mnt=t;
         }
     }
 
-    cout << cnt;
+    cout << mn << sp << mnt;
 
     return 0;
 }
