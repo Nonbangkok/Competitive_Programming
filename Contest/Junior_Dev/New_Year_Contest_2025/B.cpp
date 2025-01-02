@@ -7,9 +7,23 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
+
+const int N = 1e6+10;
+int A[N],n,cnt,ans;
+
 int main(){macos;
 
-    
+    cin >> n;
+    forr(i,0,n)cin >> A[i];
+
+    cnt = 0;
+    forr(i,1,n){
+        if(A[i]>=A[i-1])cnt++;
+        else cnt = 0;
+        ans = max(ans,cnt);
+    }
+
+    cout << (ans?ans+1:-1);
 
     return 0;
 }

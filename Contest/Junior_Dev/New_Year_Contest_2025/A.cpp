@@ -7,9 +7,20 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
+map<char,short> mp;
 int main(){macos;
 
-    
+    int n;
+    cin >> n;
+    while(n--){
+        string cmd,s;
+        cin >> cmd;
+        if(cmd[0]=='g'){
+            if(s.size()==3){
+
+            }else 
+        }
+    }
 
     return 0;
 }
