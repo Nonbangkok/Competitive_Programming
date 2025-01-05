@@ -7,6 +7,7 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
+
 int main(){macos;
 
     

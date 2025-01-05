@@ -10,7 +10,7 @@ using namespace std;
 
 const int N = 8e6;
 bool prime[N];
-int n,cnt = 0;
+int n,cnt;
 
 int main(){macos;
 
