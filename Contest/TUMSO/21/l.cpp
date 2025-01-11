@@ -10,7 +10,17 @@ using namespace std;
 
 int main(){macos;
 
-    
+    ll t,n;
+    cin >> t;
+
+    while(t--){
+        cin >> n;
+        int r = n%3LL;
+        if(n<3||n==4)cout << -1 << endll;
+        else if(n==3)cout << 1 << endll;
+        else if(r==1)cout << n/3-1 << endll;
+        else cout << n/3 << endll;
+    }
 
     return 0;
 }

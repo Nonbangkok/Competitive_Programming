@@ -8,9 +8,27 @@
 typedef long long ll;
 using namespace std;
 
+void solve(){
+    ll n,m;
+    cin >> n >> m;
+    ll a[n],b[m];
+    forr(i,0,n)cin >> a[i];
+    forr(i,0,m)cin >> b[i];
+    sort(a,a+n);
+    sort(b,b+m,greater<ll>());
+    ll ans = 0;
+    forr(i,0,min(n,m))ans += max(0LL,b[i]-a[i]);
+    cout << ans << endll;
+}
+
 int main(){macos;
 
-    
+    ll t;
+    cin >> t;
+
+    while(t--){
+        solve();
+    }
 
     return 0;
 }

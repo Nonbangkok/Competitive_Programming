@@ -1,4 +1,4 @@
-TOI18_Shopping#include <bits/stdc++.h>
+#include <bits/stdc++.h>
 #define coutf(n, m) cout << fixed << setprecision(n) << m
 #define forr(i, a, n) for (int i = a; i < n; i++)
 #define forl(i, a, n) for (int i = a; i > n; i--)
@@ -7,7 +7,7 @@ TOI18_Shopping#include <bits/stdc++.h>
 #define sp " "
 typedef long long ll;
 using namespace std;
-int A[500005],shop[500005],chkpoint[500005];
+int A[1001],shop[1001],chkpoint[1001];
 int main() {macos;
 
     int n,m;
