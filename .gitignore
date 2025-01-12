@@ -1,6 +1,8 @@
-# Macos
+# Marcos
 *.DS_Store
-Autor
+*.vscode
+Autor/
+.vscode
 # Prerequisites
 *.d
 
