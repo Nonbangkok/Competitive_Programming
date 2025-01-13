@@ -12,6 +12,8 @@ void dfs(vector<vector<int>> &p,vector<vector<int>> &b,vector<bool> &visited,int
 		if(u==i||visited[i])continue;
 		if(p[u][i]){
 			b[u][i] = b[i][u] = 1;
+			p[u][i]--;
+			p[i][u]--;
 			dfs(p,b,visited,n,i);
 		}
 	}
