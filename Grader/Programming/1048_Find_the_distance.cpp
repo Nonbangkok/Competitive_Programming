@@ -10,7 +10,10 @@ using namespace std;
 
 int main(){macos;
 
-
+    ll k,n,ans = 0;
+    cin >> k >> n;
+    forr(i,0,n)ans += __builtin_popcount(i^i+1);
+    cout << ans;
 
     return 0;
 }
