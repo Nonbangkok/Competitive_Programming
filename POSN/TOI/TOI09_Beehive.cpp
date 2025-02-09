@@ -7,11 +7,13 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
+
 const int N=1010;
 int dp[N][N],cnt[N][N];
+int n,m,ans,co;
+
 int main(){macos;
 
-    int n,m;
     cin >> n >> m;
     forr(i,1,n+1)forr(j,1,m+1)cin >> dp[i][j];
     forr(i,1,m+1)cnt[1][i]=1;
@@ -25,7 +27,6 @@ int main(){macos;
         }   
     }
 
-    int ans=0,co=0;
     forr(i,1,m+1){
         if(ans<dp[n][i])ans=dp[n][i],co=cnt[n][i];
         else if(ans==dp[n][i])co+=cnt[n][i];

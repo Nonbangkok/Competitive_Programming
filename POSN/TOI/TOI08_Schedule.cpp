@@ -8,38 +8,30 @@
 typedef long long ll;
 using namespace std;
 
-struct Non{
-    int day,minute;
+const int N = 1010;
+pair<int,int> dp[N][N];
+int A[N],B[N];
+int n,m;
 
-    bool operator < (const Non &rhs)const{
-        if(day!=rhs.day)return day<rhs.day;
-        return minute<rhs.minute;
-    }
-};
-
-const int N=1010;
-int A[N],B[N],k,n;
-Non dp[N][N];
-
-Non work(Non dp,int n){
-    if(dp.minute+n<=k)return {dp.day,dp.minute+n};
-    return {dp.day+1,n};
+pair<int,int> cal(pair<int,int> a,int b){
+    if(a.second+b>m)return {a.first+1,b};
+    return {a.first,a.second+b};
 }
 
-int main() {macos;
+int main(){macos;
 
-    cin >> k >> n;
+    cin >> m >> n;
     forr(i,1,n+1)cin >> A[i];
     forr(i,1,n+1)cin >> B[i];
-    forr(i,0,n+1)forr(j,0,n+1)dp[i][j]={INT_MAX,INT_MAX};
-    dp[0][0]={1,0};
-    
+
     forr(i,0,n+1)forr(j,0,n+1){
-        if(i&&j)dp[i][j]=min(work(dp[i-1][j],A[i]),work(dp[i][j-1],B[j]));
-        else if(i)dp[i][j]=work(dp[i-1][j],A[i]);
-        else if(j)dp[i][j]=work(dp[i][j-1],B[j]);
+        if(i==0&&j==0)continue;
+        dp[i][j] = {1e9,1e9};
+        if(i)dp[i][j] = min(dp[i][j],cal(dp[i-1][j],A[i]));
+        if(j)dp[i][j] = min(dp[i][j],cal(dp[i][j-1],B[j]));
     }
-    cout << dp[n][n].day << endll << dp[n][n].minute;
+
+    cout << dp[n][n].first+(dp[n][n].second>0) << endll << dp[n][n].second;
 
     return 0;
 }
