@@ -8,9 +8,27 @@
 typedef long long ll;
 using namespace std;
 
+const int N = 2e5+10;
+vector<pair<int,int>> stick;
+int banana[N];
+bool visited[N];
+int m,n,k,a,b,st;
+
 int main(){macos;
 
-    
+    cin >> m >> n >> k;
+    forr(i,0,n){
+        cin >> a >> b;
+        stick.emplace_back(b,a);
+    }
+    cin >> st;
+
+    sort(stick.begin(),stick.end());
+
+
+    for(auto [x,h]:stick){
+        
+    }
 
     return 0;
 }
