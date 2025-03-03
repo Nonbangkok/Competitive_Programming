@@ -147,7 +147,9 @@
     "__assert": "cpp",
     "random": "cpp",
     "cuchar": "cpp",
-    "source_location": "cpp"
+    "source_location": "cpp",
+    "memory": "cpp",
+    "print": "cpp"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }
