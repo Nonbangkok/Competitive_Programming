@@ -2,79 +2,59 @@
 #define coutf(n, m) cout << fixed << setprecision(n) << m
 #define forr(i, a, n) for (int i = a; i < n; i++)
 #define forl(i, a, n) for (int i = a; i > n; i--)
-#define macos ios::sync_with_stdio(0);cin.tie(0)
+#define macos ios::sync_with_stdio(0);cin.tie(0);cout.tie(0)
 #define endll "\n"
 #define sp " "
 typedef long long ll;
 using namespace std;
 
-ll dis[2001][2001];
-
 struct Non{
-    int v;
-    ll w;
-    int d;
+    ll v,w,cnt;
 
-    bool operator < (const Non &rhs)const {
-        if(w!=rhs.w) return w>rhs.w;
-        else return v>rhs.v;
+    bool operator < (const Non &rhs)const{
+        if(w!=rhs.w)return w>rhs.w;
+        return v>rhs.v;
     }
 };
 
-int main() {macos;
+const int N = 2e3+10;
+ll dis[N][N];
+ll n,src,des,e,l,x,a,b,c,mn;
+ll mndis = 1e18,mncnt = 1e18;
+vector<pair<ll,ll>> adj[N];
+priority_queue<Non> q;
 
-    int n,e,src,des;
+int main(){macos;
+
     cin >> n >> src >> des >> e;
-    vector<Non> adj[n];
-
     forr(i,0,e){
-        int u,v;
-        ll w;
-        cin >> u >> v >> w;
-        adj[u].push_back({v,w});
+        cin >> a >> b >> c;
+        adj[a].push_back({b,c});
     }
 
-    ll mndis=1e18;
-    int mncnt=1e9;
-    priority_queue<Non> q;
-    q.push({src,0,0});
-    forr(i,0,n)forr(j,0,n)dis[i][j]=1e18;
-    dis[src][0]=0;
+    forr(i,0,n)forr(j,0,n)dis[i][j] = 1e18;
+    q.push({src,dis[src][0]=0,0});
     while(!q.empty()){
-        auto [node,wei,cnt]=q.top();
+        auto [u,wei,cnt] = q.top();
         q.pop();
 
-        if(wei>dis[node][cnt])continue;
+        if(wei>dis[u][cnt])continue;
+        if(u==des)mndis=min(mndis,wei),mncnt=min(mncnt,cnt);
 
-        if(node==des){
-            mndis=min(mndis,wei);
-            mncnt=min(mncnt,cnt);
-        }
-
-        for(auto child:adj[node]){
-            if(cnt+1<n&&(mncnt>cnt+1||mndis>dis[node][cnt]+child.w)&&dis[child.v][cnt+1]>dis[node][cnt]+child.w){
-                dis[child.v][cnt+1]=dis[node][cnt]+child.w;
-                q.push({child.v,dis[child.v][cnt+1],cnt+1});
+        for(auto [v,w]:adj[u]){
+            if((mncnt>cnt+1||mndis>dis[u][cnt]+w)&&dis[v][cnt+1]>dis[u][cnt]+w){
+                q.push({v,dis[v][cnt+1]=dis[u][cnt]+w,cnt+1});
             }
         }
     }
 
-    // forr(i,0,n){
-    //     forr(j,1,n){
-    //         if(dis[i][j]==1e18) cout << setw(2) << 0 << sp;
-    //         else cout << setw(2) << dis[i][j] << sp;
-    //     }
-    //     cout << endll;
-    // }
-
-    int t;
-    cin >> t;
-    while(t--){
-        ll x,mn=1e18;
+    cin >> l;
+    while(l--){
         cin >> x;
-        for(ll i=0;i<n;i++)mn=min(mn,dis[des][i]+(i-1)*x);
+        mn = 1e18;
+        forr(i,1,n)mn = min(mn,dis[des][i]+(i-1)*x);
         cout << mn << sp;
     }
-    
+
     return 0;
 }
