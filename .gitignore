@@ -1,7 +1,7 @@
 # Marcos
 *.DS_Store
 *.vscode
-Autor/
+Author/
 .vscode
 # Prerequisites
 *.d
