@@ -1,45 +1,39 @@
+//3ValSort : Greedy + Math
 #include <bits/stdc++.h>
-#define coutf(n, m) cout << fixed << setprecision(n) << m
-#define forr(i, a, n) for (int i = a; i < n; i++)
-#define forl(i, a, n) for (int i = a; i > n; i--)
-#define macos ios::sync_with_stdio(0);cin.tie(0);cout.tie(0)
-#define endll "\n"
-#define sp " "
-typedef long long ll;
 using namespace std;
-const int N=100001;
-int main(){macos;
-
-    int n,one=0,two=0;
+int main(){
+    int n;
+    int na[4];
+    int table[4][4]; //table[X][Y] : number X in zone Y
+    memset(na, 0, sizeof(na));
+    memset(table, 0, sizeof(table));
     cin >> n;
-    int a[n+1];
-    forr(i,1,n+1){
-        cin >> a[i];
-        if(a[i]==1)one++;
-        else if(a[i]==2)two++;
+    int s[n+1];
+    for (int i = 1; i <= n; i++){
+        cin >> s[i];
+        na[s[i]]++;
     }
-    two+=one;
-    int chk=0,cnt=0;
-    for(int i=n;i>one;i--){
-        if(a[i]==1){
-            chk=1;
-            if(i<=two)for(int j=1;j<=one&&chk;j++)if(a[j]==2){cnt++;chk=0;swap(a[i],a[j]);}
-            for(int j=1;j<=one&&chk;j++)if(a[j]==3){cnt++;chk=0;swap(a[i],a[j]);}
-            for(int j=1;j<=one&&chk;j++)if(a[j]==2){cnt++;chk=0;swap(a[i],a[j]);}
+    for (int i = 1; i <= n; i++){
+        if (i <= na[1])
+            table[s[i]][1]++;
+        else if (i <= na[1] + na[2])
+            table[s[i]][2]++;
+        else table[s[i]][3]++;
+    }
+    for(int i=1;i<=3;i++){
+        for(int j=1;j<=3;j++)cout << table[i][j] << ' ';
+        cout << "\n";
+    }
+    int ans = min(table[1][2], table[2][1])
+            + min(table[1][3], table[3][1])
+            + min(table[2][3], table[3][2])
+            + 2 * abs(table[1][2] - table[2][1]);
             
-        }
-    }
+    // int ans = min(table[1][2], table[2][1])
+    //     + min(table[1][3], table[3][1])
+    //     + min(table[2][3], table[3][2])
+    //     + 2 * (abs(table[1][2] - table[2][1]) + abs(table[1][3] - table[3][1]) + abs(table[2][3] - table[3][2])) / 3;
 
-    chk=0;
-    for(int i=one+1;i<=two;i++){
-        if(a[i]==3){
-            chk=1;
-            if(i<=two)for(int j=n;j>two&&chk;j--)if(a[j]==2){cnt++;chk=0;swap(a[i],a[j]);}
-        }
-    }
-
-    //forr(i,1,n+1)cout << a[i] << sp;cout << endll;
-    cout << cnt;
-
+    cout << ans;
     return 0;
 }

@@ -7,21 +7,25 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
+
 int main(){macos;
 
-    ll t;
+    ll t,n,m,x,y;
     cin >> t;
 
     while(t--){
-        ll n1,n2,x,y;
-        cin >> n1 >> n2 >> x >> y;
-        ll l=0,r=2e9,k=x*y,m;
+        cin >> n >> m >> x >> y;
+        ll l = 0, mid, r = 1e12;
         while(l<r){
-            m=(l+r)>>1;
-            ll a=m-m/x,b=m-m/y;
-            ll c=a+b-(m-m/k);
-            if(c<max(0LL,n1-(a-c))+max(0LL,n2-(b-c))) l=m+1;
-            else r=m;
+            mid = (l+r) >> 1;
+
+            ll both = mid/(x*y);
+            ll y_notx = mid/y-both;
+            ll x_noty = mid/x-both;
+            ll not_both = mid-y_notx-x_noty-both;
+
+            if(not_both<max(0LL,n-y_notx)+max(0LL,m-x_noty))l = mid + 1;
+            else r = mid;
         }
         cout << l << endll;
     }
