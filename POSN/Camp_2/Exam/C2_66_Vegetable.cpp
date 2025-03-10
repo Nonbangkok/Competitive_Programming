@@ -7,22 +7,13 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
+
 int main(){macos;
 
-    int l,n;
+    int l,n,sum = 0,i;
     cin >> l >> n;
-
-    vector<int> A;
-    A.push_back(1);
-    int i=1;
-    while(1){
-        int sum=A[i-1]+i+1;
-        if(sum>100000)break;
-        A.push_back(sum);
-        i++;
-    }
-
-    cout << (lower_bound(A.begin(),A.end(),n)-A.begin())/l+1;
+    for(i=1;sum<n;i++)sum += i;
+    cout << ceil(double(i-1)/l);    
 
     return 0;
 }
