@@ -7,43 +7,31 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
+
+const int N=1e5+10;
+int qs[N];
+vector<int> v;
+int t;
+int mx;
+
 int main() {macos;
 
-    int n;
-    cin >> n;
-    vector<int> table;
-    table.push_back(1);
-    table.push_back(3);
-    int i=3;
-    for(;table.back()<n;i++){
-        table.push_back(table.back()+i);
-    }
-    table.push_back(table.back()+i+1);
-    int A[n],qs[n];
-    forr(i,0,n)cin >> A[i];
-    forr(i,0,n){
-        if(!i)qs[i]=A[i];
-        else qs[i]=A[i]+qs[i-1];
+    cin >> t;
+    for(int i=1;i<=t;i++){
+        cin >> qs[i];
+        qs[i]+=qs[i-1];
     }
 
-    //cout << "table : ";
-    //for(auto i : table)cout << i << sp;
-    //cout << endll;
-
-    //cout << "qs : ";
-    //forr(i,0,n)cout << qs[i] << sp;
-    //cout << endll;
-
-    int mx=0;
-    //cout << "upper bound : " << endll;
-    forr(i,0,n){
-        int x=upper_bound(table.begin(),table.end(),n-i)-table.begin()-1;
-        if(!i) mx=max(mx,qs[x]);
-        //cout << qs[x] << sp << n-i << sp << x << endll;
-        else mx=max(mx,qs[table[x]+i-1]-qs[i-1]);
-        //else cout << qs[table[x]+i-1] << sp << -qs[i-1] << sp << qs[table[x]+i-1]-qs[i-1] << sp << n-i << sp << x << endll;
+    v.push_back(0);
+    for(int i=1;v.back()<=t;i++)v.push_back(v.back()+i);
+    for(int i=1;i<=t;i++){
+        int idx=upper_bound(v.begin(),v.end(),t-i+1)-v.begin();
+        idx--;
+        if(qs[v[idx]+i-1]-qs[i-1]>mx){
+        }
+        mx=max(mx,qs[v[idx]+i-1]-qs[i-1]);
     }
-    cout << mx;
+    cout << mx << endll;
 
     return 0;
 }
