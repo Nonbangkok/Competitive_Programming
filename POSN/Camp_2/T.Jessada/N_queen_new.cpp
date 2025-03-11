@@ -8,26 +8,29 @@
 typedef long long ll;
 using namespace std;
 
+const int N = 11;
 int t,n;
-int A[11];
+int A[N];
+bool diag1[N],diag2[2*N],row[2*N];
 bool chk;
-
-bool is_valid(int i){
-    forr(j,1,i)if(A[i]==A[j]||i-j==abs(A[i]-A[j]))return false;
-    return true;
-}
 
 void solve(int i){
     if(i==n+1){
         cout << '[';
-        forr(j,1,n+1)cout << A[j] << sp;
+        forr(i,1,n+1)cout << A[i] << sp;
         cout << ']' << sp;
         chk = false;
     }else{
         forr(j,1,n+1){
+            if(row[j]||diag1[n+i-j]||diag2[i+j])continue;
+            row[j] = 1;
+            diag1[n+i-j] = 1;
+            diag2[i+j] = 1;
             A[i] = j;
-            if(!is_valid(i))continue;
             solve(i+1);
+            row[j] = 0;
+            diag1[n+i-j] = 0;
+            diag2[i+j] = 0;
         }
     }
 }
@@ -35,12 +38,14 @@ void solve(int i){
 int main(){macos;
 
     cin >> t;
-
     while(t--){
         cin >> n;
         chk = true;
+        memset(diag1,0,sizeof(diag1));
+        memset(diag2,0,sizeof(diag2));
+        memset(row,0,sizeof(row));
         solve(1);
-        if(chk)cout << -1; 
+        if(chk)cout << -1;
         cout << endll;
     }
 

@@ -9,7 +9,7 @@ typedef long long ll;
 using namespace std;
 
 const int N = 11;
-ll A[N],mem[N][100001];
+ll A[N],mem[N][10001];
 ll n,m,ans=1e9,a;
 
 void solve(ll i, ll area, ll money){
@@ -30,7 +30,7 @@ int main(){macos;
     forr(i,0,n)cin >> A[i],a += A[i]*A[i];
     forr(i,0,n+1)forr(j,0,10001)mem[i][j] = 1e9;
     solve(0,a,0);
-    cout << ans;
+    ans==1e9?cout << -1:cout << ans;
 
     return 0;
 }
