@@ -12,34 +12,47 @@ struct Point{
     double x,y;
 };
 
+vector<Point> Points;
+double a,b;
+
 double dis(Point a, Point b){
-    return sqrt(pow(a.x-b.x,2)+pow(a.y-b.y,2));
+    return sqrt((a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y));
 }
 
 double Closest_Pair(vector<Point> Px, vector<Point> Py){
     int n = Px.size();
     if(n<=3){
-        double mn = DBL_MAX;
-        forr(i,0,n)forr(j,i+1,n)mn = min(mn,dis(Px[i],Px[j]));
+        double mn = 1e9;
+        forr(i,0,n)forr(j,i+1,n){
+            mn = min(mn,dis(Px[i],Px[j]));
+        }
         return mn;
     }
 
     int mid = n >> 1;
-    Point midPoint = Px[mid];
 
-    vector<Point> Pxl (Px.begin(),Px.begin()+mid);
-    vector<Point> Pxr (Px.begin()+mid,Px.end());
+    vector<Point> Pxl(Px.begin(),Px.begin()+mid);
+    vector<Point> Pxr(Px.begin()+mid,Px.end());
 
-    double dl = Closest_Pair(Pxl,Py);
-    double dr = Closest_Pair(Pxr,Py);
-    double d = min(dl,dr);
+    vector<Point> Pyl, Pyr;
 
-    n = Py.size();
-    for(int i=0;i<n;i++){
-        if(abs(Py[i].x-midPoint.x) < d){
-            for(int j = i + 1; j < n && (Py[j].y - Py[i].y) < d; j++){
-                d = min(d, dis(Py[i], Py[j]));
-            }
+    int l = 0;
+    for(auto p:Py){
+        // if((p.x<Px[mid].x||(p.x==Px[mid].x&&p.y<Px[mid].y))&&l<mid)Pyl.push_back(p),l++;
+        if(p.x<Px[mid].x)Pyl.push_back(p);
+        else Pyr.push_back(p);
+    }
+
+    double d = min(Closest_Pair(Pxl,Pyl),Closest_Pair(Pxr,Pyr));
+
+    vector<Point> strip;
+    for(auto p:Py){
+        if(abs(p.x-Px[mid].x)<d)strip.push_back(p);
+    }
+
+    forr(i,0,strip.size()){
+        for(int j=i+1;j<strip.size()&&abs(strip[i].y-strip[i].y)<d;j++){
+            d = min(d,dis(strip[i],strip[j]));
         }
     }
 
@@ -48,21 +61,17 @@ double Closest_Pair(vector<Point> Px, vector<Point> Py){
 
 int main(){macos;
 
-    vector<Point> Points;
-
     int n;
     cin >> n;
-
     forr(i,0,n){
-        double a,b;
         cin >> a >> b;
         Points.push_back({a,b});
     }
 
     vector<Point> Px = Points, Py = Points;
 
-    sort(Px.begin(),Px.end(),[](const Point &a, const Point &b) { return a.x < b.x; });
-    sort(Py.begin(),Py.end(),[](const Point &a, const Point &b) { return a.y < b.y; });
+    sort(Px.begin(),Px.end(),[](const Point &a, const Point &b){return a.x < b.x;});
+    sort(Py.begin(),Py.end(),[](const Point &a, const Point &b){return a.y < b.y;});
 
     cout << Closest_Pair(Px,Py);
 

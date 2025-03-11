@@ -54,33 +54,27 @@ ll Closest_Pair(vector<Point> Px, vector<Point> Py){
 
     vector<Point> Pyl, Pyr;
 
+    int l = 0;
     for(auto p:Py){
-        if(p.x < midPoint.x)Pyl.push_back(p);
+        //  if ((p.x < midPoint.x || (p.x == midPoint.x && p.y < midPoint.y)) && l<mid)Pyl.push_back(p),l++;
+        if(p.x<midPoint.x)Pyl.push_back(p);
         else Pyr.push_back(p);
     }
 
+    // if(Pxl.size()!=Pyl.size()||Pxr.size()!=Pyr.size())while(1){l++;}
+
     ll d = min(Closest_Pair(Pxl,Pyl),Closest_Pair(Pxr,Pyr));
 
-    n = Py.size();
-    for(int i=0;i<n;i++){
-        if((Py[i].x-midPoint.x)*(Py[i].x-midPoint.x)<d){
-            for(int j=i+1;j<n&&(Py[j].y-Py[i].y)*(Py[j].y-Py[i].y)<d;j++){
-                d = min(d, dis(Py[i], Py[j]));
-            }
-        }
+    vector<Point> strip;
+    for(auto p:Py){
+        if(abs(p.x-midPoint.x)*abs(p.x-midPoint.x) < d)strip.push_back(p);
     }
 
-    // vector<Point> strip;
-    // for(auto p : Py) {
-    //     if((p.x - midPoint.x)*(p.x - midPoint.x) < d)
-    //         strip.push_back(p);
-    // }
-
-    // for(int i = 0; i < strip.size(); ++i) {
-    //     for(int j = i + 1; j < strip.size() && (strip[j].y - strip[i].y)*(strip[j].y - strip[i].y) < d; ++j) {
-    //         d = min(d, dis(strip[i], strip[j]));
-    //     }
-    // }
+    for(int i=0;i<strip.size();i++){
+        for(int j=i+1;j<strip.size()&&(strip[j].y-strip[i].y)*(strip[j].y-strip[i].y)<d;j++) {
+            d = min(d,dis(strip[i], strip[j]));
+        }
+    }
 
     return d;
 }

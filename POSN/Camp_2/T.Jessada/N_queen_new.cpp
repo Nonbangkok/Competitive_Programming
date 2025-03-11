@@ -11,7 +11,7 @@ using namespace std;
 const int N = 11;
 int t,n;
 int A[N];
-bool diag1[N],diag2[2*N],row[2*N];
+bool diag1[2*N],diag2[2*N],row[N];
 bool chk;
 
 void solve(int i){
