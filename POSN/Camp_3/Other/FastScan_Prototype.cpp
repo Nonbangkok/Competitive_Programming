@@ -12,9 +12,11 @@ void fastscan(ll &n){
     bool neg=false;
     int c=getchar();
     if(c=='-')neg=true,c=getchar();
-    for(n=0;c>='0'&&c<='9';c=getchar())n=(n*10)+(c-'0');
+    for(n=0;'0'<=c&&c<='9';c=getchar())n=(n*10)+(c-'0');
     if(neg)n*=-1;
 }
+
+
 
 int main(){macos;
 
