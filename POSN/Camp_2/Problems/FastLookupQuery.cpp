@@ -8,22 +8,42 @@
 typedef long long ll;
 using namespace std;
 
-int find(int *A,int n,int x){
-    forr(i,0,n)if(A[i]==x)return i;
-    return -1;
-}
+class Solution{
+    public:
+        int size;
+        vector<pair<int,int>> data;
+
+        Solution(int n){
+            size = n;
+            data.resize(n);
+        }
+
+        void sort_data(){
+            sort(data.begin(),data.end());
+        }
+
+        int query(int x){
+            int idx = lower_bound(data.begin(),data.end(),make_pair(x,0))-data.begin();
+            if(data[idx].first==x)return data[idx].second;
+            return -1;
+        }
+};
 
 int main(){macos;
 
-    int n,x;
+    int n,q,x;
     cin >> n;
-    int A[n];
-    forr(i,0,n)cin >> A[i];
-    int q;
+
+    Solution sol(n);
+
+    forr(i,0,n)cin >> sol.data[i].first, sol.data[i].second = i;
+
+    sol.sort_data();
+
     cin >> q;
-    forr(i,0,q){
+    while(q--){
         cin >> x;
-        cout << find(A,n,x) << sp;
+        cout << sol.query(x) << sp;
     }
 
     return 0;
