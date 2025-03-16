@@ -12,18 +12,16 @@ ll n,A[12][12],mx=-1;
 bool chk[12];
 
 void sSearch(ll i,ll j,ll sum){
-    if(i==n){
+    // cout << i << sp << j << sp << sum << endll;
+    if(j==n){
+        sum += A[i][j];
         mx=max(mx,sum);
     }else{
-        if(i-1>=0){
-            chk[i-1]=true;
-            sSearch(i-1,j+1,sum+A[i][j]);
-            chk[i-1]=false;
-        }
-        if(i+1<n){
-            chk[i+1]=true;
-            sSearch(i+1,j+1,sum+A[i][j]);
-            chk[i+1]=false;
+        forr(k,1,n+1){
+            if(chk[k])continue;
+            chk[k]=true;
+            sSearch(k,j+1,sum+A[i][j]);
+            chk[k]=false;
         }
     }
 }
@@ -31,8 +29,12 @@ void sSearch(ll i,ll j,ll sum){
 int main(){macos;
 
     cin >> n;
-    forr(i,0,n)forr(j,0,n)cin >> A[i][j];
-    forr(i,0,n)sSearch(i,0,0);
+    forr(i,1,n+1)forr(j,1,n+1)cin >> A[i][j];
+    forr(i,1,n+1){
+        chk[i] = true;
+        sSearch(i,1,0);
+        chk[i] = false;
+    }
     cout << mx;
 
     return 0;

@@ -7,21 +7,18 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-int n,A[11][11],mx=-1;
-bool visited[11];
 
-void ssearch(int i,int j,int sum){
-    if(i==n)mx=max(mx,sum);
-    else if(j+1<=n){
-        // if(i-1>=1&&!visited[i-1]){
-        //     visited[i-1]=true;
-        //     ssearch(i-1,j+1,sum+A[i-1][j+1]);
-        //     visited[i-1]=false;
-        // }
-        if(i+1<=n&&!visited[i+1]){
-            visited[i+1]=true;
-            ssearch(i+1,j+1,sum+A[i+1][j+1]);
-            visited[i+1]=false;
+ll n,A[12][12],mx=-1;
+bool chk[12];
+
+void sSearch(ll i,ll j,ll sum){
+    if(i==n)mx=max(mx,sum+A[i][j]);
+    else{
+        forr(k,1,n+1){
+            if(chk[k])continue;
+            chk[k]=true;
+            sSearch(k,j+1,sum+A[i][j]);
+            chk[k]=false;
         }
     }
 }
@@ -30,7 +27,11 @@ int main(){macos;
 
     cin >> n;
     forr(i,1,n+1)forr(j,1,n+1)cin >> A[i][j];
-    forr(i,1,n+1)ssearch(i,1,A[i][1]);
+    forr(i,1,n+1){
+        chk[i] = true;
+        sSearch(i,1,0);
+        chk[i] = false;
+    }
     cout << mx;
 
     return 0;
