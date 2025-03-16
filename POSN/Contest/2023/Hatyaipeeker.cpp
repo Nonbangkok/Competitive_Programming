@@ -7,28 +7,10 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-const int N=1e5+10;
-ll A[N],fw[N],n,cnt=0;
-
-void update(ll idx){
-    for(ll i=idx;i<N;i+=(i&-i))fw[i]++;
-}
-
-ll query(ll idx){
-    ll sum=0;
-    for(ll i=idx;i>0;i-=(i&-i))sum+=fw[i];
-    return sum;
-}
 
 int main(){macos;
 
-    cin >> n;
-    forr(i,1,n+1){
-        cin >> A[i];
-        cnt+=query(N-A[i]-1);
-        update(N-A[i]);
-    }
-    cout << cnt;
+    // not started
 
     return 0;
 }

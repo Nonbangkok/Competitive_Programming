@@ -26,7 +26,7 @@ int main() {macos;
 
     forr(i,0,5)A[i]=1;
     forr(i,5,51)A[i]=A[i-1]+A[i-2]+A[i-3]+A[i-4];
-    for(auto i:A)cout << i << sp;cout << endll;
+    // for(auto i:A)cout << i << sp;cout << endll;
 
     ll q;
     cin >> q;
