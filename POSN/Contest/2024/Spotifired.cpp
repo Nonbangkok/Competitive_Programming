@@ -15,7 +15,7 @@ int main(){macos;
     while(q--){
         ll n;
         cin >> n;
-        unsigned long long l=0,r=1e18,mid;
+        unsigned long long l=0,r=n,mid;
         while(l<r){
             mid=(l+r)/2;
             ll sum=0,tmp=mid;

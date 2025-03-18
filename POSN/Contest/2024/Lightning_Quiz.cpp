@@ -7,24 +7,26 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-const int N=1e8+1,m=1e9+7;
+
+const int N=2e7+1,m=1e9+7;
 bool table [N+2];
+vector<ll> prime;
+
 int main() {macos;
 
-    vector<int> prime;
     prime.push_back(0);
-    for(int i=2;i*i<N;i++){
-        if(!table[i]){
-            for(int j=i*i;j<=N;j+=i)table[j]=true;
-        }
+    prime.push_back(2);
+    for(ll i=3;i<N;i+=2){
+        if(table[i])continue;
+        prime.push_back(i);
+        for(ll j=i*i;j<N;j+=i*2)table[j]=true;
     }
-    forr(i,2,N+1)if(!table[i])prime.push_back(i);
-    //for(auto i : prime)cout << i << sp;
+    // for(auto i : prime)cout << i << sp;
 
     int a,b;
     ll sum=0;
     cin >> a >> b;
-    forr(i,a,b+1)sum=(sum+prime[i]%m)%m;
+    forr(i,a,b+1)sum=(sum+prime[i])%m;
     cout << sum;
 
     return 0;

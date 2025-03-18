@@ -9,12 +9,15 @@ typedef long long ll;
 using namespace std;
 
 struct Non{
-    int l,r,s;
+    int start,end,day;
+    double score;
 
-    bool operator <(const Non &rhs)const{
-        if(l!=rhs.l)return l<rhs.l;
-        if(s!=rhs.s)return s>rhs.s;
-        return r<rhs.r;
+    bool operator < (const Non &rhs) const{
+        if(score/day == rhs.score/rhs.day){
+            if(day == rhs.day) return start < rhs.start;
+            return day < rhs.day;
+        }
+        return score/day > rhs.score/rhs.day;
     }
 };
 
@@ -25,20 +28,21 @@ void solve(int score,int day,int idx,int prev){
     if(score>=100)mn=min(mn,day);
     else{
         forr(i,idx,A.size()){
-            if(prev>=A[i].l)continue;
-            solve(score+A[i].s,day+A[i].r-A[i].l+1,i+1,A[i].r);
+            if(prev>=A[i].start)continue;
+            solve(score+A[i].score,day+A[i].end-A[i].start+1,i+1,A[i].end);
         }
     }
 }
 
 int main() {macos;
 
-    int k,n,a,b,c;
+    int k,n,a,b;
+    double c;
     cin >> k >> n;
 
     forr(i,0,n){
         cin >> a >> b >> c;
-        A.push_back({a,b,c});
+        A.push_back({a,b,b-a+1,c});
     }
     sort(A.begin(),A.end());
 
