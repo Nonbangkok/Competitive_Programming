@@ -14,10 +14,9 @@ vector<int> vec;
 void sSearch(int i){
     if(chk)return;
     if(vec.size()==k){
-        //for(auto l:vec)cout << l << sp;cout << endll;
         cnt++;
         if(cnt==l){
-            for(auto l : vec)cout << l << sp;
+            for(auto j : vec)cout << j << sp;
             chk=1;
             return;
         }

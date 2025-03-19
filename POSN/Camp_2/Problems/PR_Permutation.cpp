@@ -12,12 +12,11 @@ bool visited[12];
 vector<int> vec;
 
 void sSearch(){
-    //for(auto i:vec)cout << i << sp;cout << endll;
     if(chk)return;
     if(vec.size()==k){
         cnt++;
         if(cnt==l){
-            for(auto k : vec)cout << k << sp;
+            for(auto j : vec)cout << j << sp;
             chk=1;
             return;
         }

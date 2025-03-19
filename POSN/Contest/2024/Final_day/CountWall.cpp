@@ -7,11 +7,14 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
+
 const int N=601;
-int A[N][N],cnt=0;
-int visited[N][N];
-int di[]={0,0,-1,1};
-int dj[]={-1,1,0,0};
+const int di[]={0,0,-1,1};
+const int dj[]={-1,1,0,0};
+int A[N][N];
+bool visited[N][N];
+ll cnt;
+
 int main(){macos;
 
     int n,m;
