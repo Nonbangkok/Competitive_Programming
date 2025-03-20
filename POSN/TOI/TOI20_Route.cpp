@@ -23,7 +23,7 @@ int fp(vector<int> &p,int x){
 
 int mst_weight(vector<pair<int,int>> e,vector<int> w){
     int n = w.size(),ans = 0;
-    vector<int> p[n];
+    vector<int> p(n);
     priority_queue<Non> q;
 
     forr(i,0,n)q.push({e[i].first,e[i].second,w[i]});
@@ -33,8 +33,8 @@ int mst_weight(vector<pair<int,int>> e,vector<int> w){
         auto [u,v,w] = q.top();
         q.pop();
 
-        if(fp(u)==fp(v))continue;
-        p[fp(v)] = fp(u);
+        if(fp(p,u)==fp(p,v))continue;
+        p[fp(p,v)] = fp(p,u);
         ans += w;
     }
 
@@ -42,24 +42,24 @@ int mst_weight(vector<pair<int,int>> e,vector<int> w){
 }
 
 // Score : 85
-// vector<pair<int,int>> route(int N, vector<int> W){
-//     int n = N, m = W.size();
-//     vector<pair<int,int>> ans(m);
-//     int st = m - n + 1;
-//     for(int i=st,j=1;i<m;i++,j++)ans[i] = {j,j+1};
+vector<pair<int,int>> route1(int N, vector<int> W){
+    int n = N, m = W.size();
+    vector<pair<int,int>> ans(m);
+    int st = m - n + 1;
+    for(int i=st,j=1;i<m;i++,j++)ans[i] = {j,j+1};
 
-//     int remain = st;
-//     int i = 3, j = 1,idx = 0;
-//     while(remain--){
-//         ans[idx++] = {j++,i};
-//         if(i-j==1)i++,j=1;
-//     }
+    int remain = st;
+    int i = 3, j = 1,idx = 0;
+    while(remain--){
+        ans[idx++] = {j++,i};
+        if(i-j==1)i++,j=1;
+    }
 
-//     return ans;
-// }
+    return ans;
+}
 
 // Score : 65
-vector<pair<int,int>> route(int N, vector<int> W){
+vector<pair<int,int>> route2(int N, vector<int> W){
     int n = N, m = W.size();
     vector<pair<int,int>> ans(m);
     int st = m - n + 1;
@@ -81,12 +81,13 @@ int main(){macos;
     cin >> n >> m;
     vector<int> w(m);
     forr(i,0,m)cin >> w[i];
-    vector<pair<int,int>> ans = route(n,w);
+    vector<pair<int,int>> ans = route1(n,w);
+    cout << mst_weight(ans,w) << endll;
 
-    for(auto [i,j]:ans)cout << i << sp << j << endll;cout << endll;
+    ans = route2(n,w);
+    cout << mst_weight(ans,w) << endll;
 
-
-    cout << mst_weight(ans,w);
+    // for(auto [i,j]:ans)cout << i << sp << j << endll;cout << endll;
 
     return 0;
 }
