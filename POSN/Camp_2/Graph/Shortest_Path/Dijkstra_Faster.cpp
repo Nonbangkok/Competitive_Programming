@@ -7,46 +7,45 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-//Supervalentine
+
 struct Non{
     int v,w;
 
     bool operator < (const Non &rhs)const{
-        return w<rhs.w;
+        if(w!=rhs.w)return w>rhs.w;
+        return v>rhs.v;
     }
 };
 
-int main() {macos;
+const int N = 1e4 + 10;
+int n,m,a,b,c;
+int dis[N],cnt[N];
+vector<Non> adj[N];
+priority_queue<Non> q;
 
-    int n,e;
-    cin >> n >> e;
-    vector<Non> adj[n];
-    forr(i,0,e){
-        int a,b,c;
+int main(){macos;
+
+    cin >> n >> m;
+    forr(i,0,n){
         cin >> a >> b >> c;
-        adj[a-1].push_back({b-1,c-1});
-        adj[b-1].push_back({a-1,c-1});
+        adj[a].push_back({b,c});
+        adj[b].push_back({a,c});
     }
 
-    ll ans=0;
-    priority_queue<Non> q;
-    q.push({0,0});
-    bool visited[n];
-    forr(i,0,n)visited[i]=false;
+    q.push({0,dis[0]=0});
     while(!q.empty()){
         auto [u,wei] = q.top();
         q.pop();
 
-        if(visited[u])continue;
-        visited[u] = true;
-
-        ans += wei;
         for(auto [v,w]:adj[u]){
-            if(visited[v])continue;//use this to optimize
-            q.push({v,w});
+            if(dis[v] > dis[u] + w){
+                dis[v] = dis[u] + w;
+                cnt[v]++;
+            }
         }
     }
-    cout << ans;
+
+    cout << dis[n-1];
 
     return 0;
 }

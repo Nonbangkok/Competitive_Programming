@@ -8,61 +8,37 @@
 typedef long long ll;
 using namespace std;
 
-struct Non{
-    ll x,y;
-};
+const int N = 410;
+ll n,q,mn;
+ll dis[N][N];
+pair<ll,ll> A[N];
+pair<ll,ll> a,b;
 
-ll cal(Non a,Non b){
-    return abs(a.x-b.x)+abs(a.y-b.y);
+ll cal(pair<ll,ll> i, pair<ll,ll> j){
+    return abs(i.first-j.first) + abs(i.second-j.second);
 }
-
-Non warp[402];
-ll dis[402][402];
 
 int main(){macos;
 
-    ll n,q,a,b,c,d;
     cin >> n >> q;
-    ll N=n*2;
-
     forr(i,0,n){
-        cin >> a >> b >> c >> d;
-        warp[i*2].x=a;warp[i*2].y=b;
-        warp[i*2+1].x=c;warp[i*2+1].y=d;
+        cin >> A[i].first >> A[i].second;
+        cin >> A[n+i].first >> A[n+i].second;
     }
 
-    forr(i,0,N)forr(j,0,N){
-        if(i==j)dis[i][j]=0;
-        else dis[i][j]=INT_MAX;
-    }
+    forr(i,0,2*n)forr(j,0,2*n)dis[i][j] = dis[j][i] = cal(A[i],A[j]);
+    forr(i,0,2*n)dis[i][i] = 0;
+    forr(i,0,n)dis[i][n+i] = dis[n+i][i] = 0;
 
-    forr(i,0,n){
-        dis[i*2][i*2+1]=0;
-        dis[i*2+1][i*2]=0;
-    }
-
-    forr(i,0,N){
-        forr(j,0,N){
-            dis[i][j]=min(dis[i][j],cal(warp[i],warp[j]));
-        }
-    }
-
-    forr(k,0,N)forr(j,0,N)forr(i,0,N)dis[i][j]=min(dis[i][j],dis[i][k]+dis[k][j]);
+    forr(k,0,2*n)forr(j,0,2*n)forr(i,0,2*n)dis[i][j] = min(dis[i][j],dis[i][k]+dis[k][j]);
 
     while(q--){
-        Non src,des;
-        cin >> src.x >> src.y >> des.x >> des.y;
-        ll ans=cal(src,des);
-        forr(i,0,N)forr(j,0,N)if(i!=j)ans=min(ans,cal(src,warp[i])+dis[i][j]+cal(warp[j],des));
-        cout << ans << endll;
+        cin >> a.first >> a.second >> b.first >> b.second;
+        mn = cal(a,b);
+        forr(i,0,2*n)forr(j,0,2*n)
+            if(i!=j)mn = min(mn,cal(a,A[i])+dis[i][j]+cal(A[j],b));
+        cout << mn << endll;
     }
-
-    // forr(i,0,N){
-    //     forr(j,0,N){
-    //         cout << dis[i][j] << sp;
-    //     }
-    //     cout << endll;
-    // }
 
     return 0;
 }

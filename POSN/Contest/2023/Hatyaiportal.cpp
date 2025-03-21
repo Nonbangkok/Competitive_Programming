@@ -8,36 +8,35 @@
 typedef long long ll;
 using namespace std;
 
-struct Non{
-    ll x,y;
-};
+const int N = 1e4 + 10;
+bool vis[N];
+ll dis[N];
+ll n,u,ans;
+pair<ll,ll> A[N];
 
 int main(){macos;
 
-    vector<Non> A;
-    ll n,a,b;
     cin >> n;
-    forr(i,0,n){cin >> a >> b;A.push_back({a,b});}
-    ll dis[n];
-    forr(i,0,n)dis[i]=INT_MAX;
+    forr(i,0,n)cin >> A[i].first >> A[i].second;
 
-    ll idx=0,mn,ans=0,next;
-    while(1){
-        mn=INT_MAX,next=-1;
-        dis[idx]=-1;
-        forr(i,0,n){
-            if(dis[i]==-1)continue;
-            dis[i]=min(dis[i],abs(A[i].x-A[idx].x)+abs(A[i].y-A[idx].y));
-            if(mn>dis[i]){
-                mn=dis[i];
-                next=i;
-            }
+    forr(i,1,n)dis[i] = 1e9;
+
+    forr(i,0,n){
+        u = -1;
+        forr(j,0,n){
+            if(vis[j])continue;
+            if(u==-1||dis[u]>dis[j])u = j;
         }
-        if(next==-1)break;
-        idx=next;
-        ans+=mn;
-        //cout << idx << sp << mn << endll;
+
+        vis[u] = true;
+        ans += dis[u];
+
+        forr(j,0,n){
+            if(vis[j])continue;
+            dis[j] = min(dis[j],abs(A[u].first-A[j].first)+abs(A[u].second-A[j].second));
+        }
     }
+
     cout << ans;
 
     return 0;

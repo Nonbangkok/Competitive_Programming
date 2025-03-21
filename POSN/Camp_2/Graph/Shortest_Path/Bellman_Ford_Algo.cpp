@@ -22,9 +22,9 @@ void Bellman_Ford(vector<Non> adj[],int V,int src){
 
     forr(i,0,V-1){
         forr(u,0,V){
-            for(auto child : adj[u]){
-                if(dis[child.node]>dis[u]+child.wei){
-                    dis[child.node]=dis[u]+child.wei;
+            for(auto [v,w] : adj[u]){
+                if(dis[v]>dis[u]+w){
+                    dis[v]=dis[u]+w;
                 }
             }
         }
