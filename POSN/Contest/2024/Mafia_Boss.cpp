@@ -21,10 +21,12 @@ int main(){macos;
     }
 
     int mx=-1;
-    forr(i,1,n+1){
-        for(auto child:adj[i]){
-            if(color[child]==color[i])color[child]++;
-            mx=max(mx,color[child]);
+    forr(k,1,n+1){
+        forr(i,1,n+1){
+            for(auto child:adj[i]){
+                if(color[child]==color[i])color[child]++;
+                mx=max(mx,color[child]);
+            }
         }
     }
     cout << mx+1;
