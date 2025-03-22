@@ -1,87 +1,46 @@
 #include <bits/stdc++.h>
-#define coutf(n, m) cout << fixed << setprecision(n) << m
-#define forr(i, a, n) for (int i = a; i < n; i++)
-#define forl(i, a, n) for (int i = a; i > n; i--)
-#define macos ios::sync_with_stdio(0);cin.tie(0);cout.tie(0)
-#define endll "\n"
-#define sp " "
-typedef long long ll;
 using namespace std;
 
-vector<int> adj[101];
-int in_time[101],out_time[101];
-int up[101][21]; //Vertex,Depth
-int timestep=0;
+const int N = 1e5 + 1;
 
-void precompute(int u,int p){
-    in_time[u]=timestep++;
+int n,q;
+int dp[21][N],lv[N];
+vector<int> adj[N];
 
-    up[u][0]=p;
-    forr(i,1,21)up[u][i]=up[up[u][i-1]][i-1];
+void dfs(int u,int p,int l){
+    dp[0][u] = p,lv[u] = l;
+    for(int v : adj[u]) dfs(v,u,l+1);
+}
 
-    for(auto v:adj[u]){
-        if(v==p)continue;
-        precompute(v,u);
+int lca(int a,int b){
+    if(lv[a]<lv[b]) swap(a,b);
+    for(int i = 20;i >= 0;i--) if(lv[dp[i][a]]>=lv[b]) a = dp[i][a];
+    if(a==b) return a;
+    for(int i = 20;i >= 0;i--) if(dp[i][a]!=dp[i][b]) a = dp[i][a],b = dp[i][b];
+    return dp[0][a];
+}
+
+int main(){
+    ios_base::sync_with_stdio(0); cin.tie(0);
+
+    cin >> n;
+
+    for(int i = 0;i < n-1;i++) {
+        int a,b;
+        cin >> a >> b;
+        adj[a].push_back(b);
     }
 
-    out_time[u]=timestep++;
-}
+    dfs(0,0,1);
 
-bool is_ancestor(int u,int v){
-    return in_time[u] <= in_time[v] && out_time[u] >= out_time[v];
-}
+    for(int i = 1;i <= 20;i++) for(int j = 1;j <= n;j++)
+        dp[i][j] = dp[i-1][dp[i-1][j]];
 
-int lca(int u,int v){ 
-    if(is_ancestor(u,v))return u;
-    if(is_ancestor(v,u))return v;
-    forl(i,20,-1)if(up[u][i]&&!is_ancestor(up[u][i],v))u=up[u][i];
-    return up[u][0];
-}
-
-int main(){macos;
-
-    int V,q;
-    cin >> V >> q;
-
-    forr(i,0,V-1){
-        int u,v;
-        cin >> u >> v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
-    }
-
-    precompute(1,0);
-
-    // forr(i,1,V+1){
-    //     forr(j,0,21){
-    //         cout << up[i][j] << sp;
-    //     }
-    //     cout << endll;
-    // }
+    cin >> q;
 
     while(q--){
         int a,b;
         cin >> a >> b;
-        cout << lca(a, b) << endll;
+        cout << lca(a,b) << '\n';
     }
-
-    return 0;
 }
-/*
-15 10
-1 2
-1 3
-2 4 
-2 5
-3 6
-3 7
-4 8 
-4 9 
-5 10
-5 11
-6 12
-6 13
-7 14
-7 15
-Query (?)
-*/
