@@ -25,7 +25,7 @@ int main(){macos;
 		o++;
 	}
 
-		cout << s <<o;
+		cout << s << o;
 	
 	return 0;
 }
