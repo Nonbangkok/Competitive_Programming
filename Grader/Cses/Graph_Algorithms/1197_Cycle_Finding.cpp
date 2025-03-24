@@ -8,16 +8,12 @@
 typedef long long ll;
 using namespace std;
 
-struct Non{
-    int a,b;
-    ll c;
-};
-
 const int N = 2510;
-int n,m,a,b;
+int n,m,a,b,st;
+int p[N];
 ll dis[N],c;
-bool chk = false;
-vector<Non> edges;
+vector<tuple<int,int,ll>> edges;
+vector<int> ans;
 
 int main(){macos;
 
@@ -27,25 +23,31 @@ int main(){macos;
         edges.push_back({a,b,c});
     }
 
-    forr(i,1,n+1)dis[i]=-1e18;
-    dis[1] = 0;
-    forr(k,0,n-1){
+    forr(i,2,n+1)dis[i] = 1e18;
+    forr(i,0,n){
+        st = 0;
         for(auto [u,v,w]:edges){
-            if(dis[v]<dis[u]+w){
-                dis[v]=dis[u]+w;
+            if(dis[v]>dis[u]+w){
+                dis[v] = dis[u]+w;
+                p[v] = u;
+                st = v;
             }
         }
     }
 
-    for(auto [u,v,w]:edges){
-        if(dis[v]<dis[u]+w){
-            chk = true;
-            break;
-        }
-    }
+    if(!st){cout << "NO";return 0;}
 
-    cout << (chk?-1:dis[n]);
+    forr(i,0,n)st = p[st];
+    int cur = st;
+    while(1){
+        ans.push_back(cur);
+        if(cur==st&&ans.size()>1)break;
+        cur = p[cur];
+    }
+    reverse(ans.begin(),ans.end());
+
+    cout << "YES" << endll;
+    for(int v:ans)cout << v << sp;
 
     return 0;
 }
- 
