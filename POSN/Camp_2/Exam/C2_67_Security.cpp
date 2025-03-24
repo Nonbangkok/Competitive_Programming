@@ -8,11 +8,11 @@
 typedef long long ll;
 using namespace std;
 
-int n,m,k,q,tmp,a,b,co,x;
-vector<pair<int,int>> pt;
-vector<int> times,cnt;
+ll n,m,k,q,tmp,a,b,co,x;
+vector<pair<ll,ll>> pt;
+vector<ll> times,cnt;
 
-int32_t main(){macos;
+int main(){macos;
 
     cin >> n >> m >> k >> q;
     forr(i,0,k){
