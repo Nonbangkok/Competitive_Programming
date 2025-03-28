@@ -7,40 +7,27 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-vector<pair<ll,int>> A;
+
+const int N = 5010;
+int n,k;
+vector<pair<int,int>> A,ans;
+
 int main(){macos;
 
-    ll n,l;
-    cin >> n >> l;
-    ll a[n];
-    forr(i,0,n)cin >> a[i];
-    // forr(i,0,n){
-    //     forr(j,i+1,n){
-    //         forr(k,j+1,n){
-    //             if(a[i]+a[j]+a[k]==l){
-    //                 A.push_back({a[i],i+1});
-    //                 A.push_back({a[j],j+1});
-    //                 A.push_back({a[k],k+1});
-    //                 sort(A.begin(),A.end());
-    //                 for(auto [x,i]:A)cout << i << sp;
-    //                 return 0;
-    //             }
-    //         }
-    //     }
-    // }
+    cin >> n >> k;
+    A.resize(n);
+    forr(i,0,n)cin >> A[i].first,A[i].second = i+1;
 
-    forl(i,n-1,-1){
-        forl(j,i-1,-1){
-            forl(k,j-1,-1){
-                if(a[i]+a[j]+a[k]==l){
-                    A.push_back({a[i],i+1});
-                    A.push_back({a[j],j+1});
-                    A.push_back({a[k],k+1});
-                    sort(A.begin(),A.end());
-                    for(auto [x,i]:A)cout << i << sp;
-                    return 0;
-                }
-            }
+    sort(A.begin(),A.end());
+
+    forr(i,0,n-2){
+        int l = i+1, r = n-1;
+        while(l<r){
+            if(A[i].first + A[l].first + A[r].first == k){
+                cout << A[i].second << sp << A[l].second << sp << A[r].second;
+                return 0;
+            }else if(A[i].first + A[l].first + A[r].first > k)r--;
+            else l++;
         }
     }
 
