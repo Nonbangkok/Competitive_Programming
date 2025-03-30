@@ -7,45 +7,51 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-const int N=8e4+10;
-vector<pair<int,int>> adj[N];
-vector<int>tmp;
 
-void dfs(int u,int par){
+const int N = 8e4 + 10;
+int n,a,b,cnt,st;
+ll c,sum;
+vector<pair<int,ll>> adj[N];
+vector<int> q;
+
+void dfs(int u, int p){
     for(auto [v,w]:adj[u]){
-        if(v==par)continue;
+        if(v==p)continue;
         dfs(v,u);
-        tmp.push_back(w);
+        q.push_back(w);
     }
 }
 
 int main(){macos;
 
-    int n,a,b,c,st,r=0;
     cin >> n;
     forr(i,0,n){
         cin >> a >> b >> c;
         adj[a].push_back({b,c});
         adj[b].push_back({a,c});
-        r+=c;
+        sum += c;
     }
-    forr(i,0,n)if(adj[i].size()==1){st=i;break;}
-    dfs(st,-1);
-    //for(auto i:tmp)cout << i << sp;
 
-    int l=0,m;
+    forr(i,0,n+1)if(adj[i].size()==1){
+        dfs(i,i);
+        st = i;
+        break;
+    }
+
+    ll l = 0, r = sum, mid;
     while(l<r){
-        m=(l+r)>>1;
+        mid = (l+r) >> 1;
 
-        int sum=0,cnt=0;
-        for(auto i:tmp){
-            sum+=i;
-            if(sum>=m)sum=0,cnt++;
+        ll cnt = 0, sum = 0;
+        forr(i,0,q.size()){
+            sum += q[i];
+            if(sum>=mid)cnt++,sum = 0;
         }
 
-        if(cnt<3)r=m;
-        else l=m+1;
+        if(cnt>=3)l = mid + 1;
+        else r = mid;
     }
+    
     cout << l-1;
 
     return 0;

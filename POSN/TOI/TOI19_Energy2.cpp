@@ -8,26 +8,19 @@
 typedef long long ll;
 using namespace std;
 
-const int M = 1e9+7;
+const int N = 310, K = 10, M = 1e9 + 7;
 int n,k,d;
-ll dp[10][310][310],qs[310];
+ll dp[K][N][N],qs[N];
 
 int main(){macos;
 
     cin >> n >> k >> d;
-    forr(i,1,n+1){
-        cin >> qs[i];
-        qs[i]+=qs[i-1];
-    }
-    forr(i,1,n+1)forr(j,1,n+1)dp[1][i][j] = 1LL;
-    forr(depth,2,k+1){
-        forr(sz,1,n)forr(l,1,n+1-sz){
-            int r = l+sz;
-            forr(k,l,r){
-                if(abs(qs[r]-2*qs[k]+qs[l-1])>d)continue;
-                dp[depth][l][r] = (dp[depth][l][r] + dp[depth-1][l][k]*dp[depth-1][k+1][r]) % M;
-            }
-        }
+    forr(i,1,n+1)cin >> qs[i],qs[i] += qs[i-1];
+    forr(i,1,n+1)forr(j,1,n+1)dp[1][i][j] = 1;
+    forr(depth,2,k+1)forr(sz,1,n)forr(l,1,n-sz+1){
+        int r = l + sz;
+        forr(m,l,r)if(abs(qs[r]+qs[l-1]-2*qs[m])<=d)
+            dp[depth][l][r] = (dp[depth][l][r] + dp[depth-1][l][m]*dp[depth-1][m+1][r]) % M;
     }
 
     cout << dp[k][1][n];
