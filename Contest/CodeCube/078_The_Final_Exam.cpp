@@ -8,19 +8,21 @@
 typedef long long ll;
 using namespace std;
 
-void fastscan(ll &n){
-    bool neg=false;
-    int c=getchar();
-    if(c=='-')neg=true,c=getchar();
-    for(n=0;'0'<=c&&c<='9';c=getchar())n=(n*10)+(c-'0');
-    if(neg)n*=-1;
-}
+int x,sum;
+int a[5];
+bool chk = true;
+vector<int> ans;
 
 int main(){macos;
 
-    ll n;
-    fastscan(n);
-    cout << n;
+    cin >> x;
+    forr(i,0,5)cin >> a[i],sum += a[i];
+    forr(i,0,5){
+        if(chk&&sum-a[i]==x)ans.push_back(0),chk = false;
+        else ans.push_back(a[i]);
+    }
+    if(chk&&sum!=x)cout << -1;
+    else for(int i:ans)cout << i << sp;
 
     return 0;
 }

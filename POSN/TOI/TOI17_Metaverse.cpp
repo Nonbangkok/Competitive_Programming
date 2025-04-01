@@ -11,13 +11,18 @@ struct Non{
 ll n,m,k,p,mndis=m+n-2,mnt=0;
 ll dp[18][20001];
 
+void fastscan(ll &x){
+    int c=getchar();
+    for(x=0;'0'<=c&&c<='9';c=getchar())x=(x*10)+(c-'0');
+}
+
 int main(){
     ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
 
-    cin >> n >> m >> k >> p;
+    fastscan(n);fastscan(m);fastscan(k);fastscan(p);
     mndis=m+n-2;
     forr(i,0,k){
-        cin >> Node[i].wi >> Node[i].wj >> Node[i].oi >> Node[i].oj;
+        fastscan(Node[i].wi);fastscan(Node[i].wj);fastscan(Node[i].oi);fastscan(Node[i].oj);
         dp[1][i]=Node[i].wi+Node[i].wj-2;
         if(mndis>dp[1][i]+m+n-(Node[i].oi+Node[i].oj)){
             mndis=dp[1][i]+m+n-(Node[i].oi+Node[i].oj);
