@@ -8,86 +8,15 @@
 typedef long long ll;
 using namespace std;
 
-struct Non{
-    int u,v,w;
-
-    bool operator < (const Non &rhs)const{
-        return w>rhs.w;
-    }
-};
-
-int fp(vector<int> &p,int x){
-    if(p[x]!=x)p[x] = fp(p,p[x]);
-    return p[x];
-}
-
-int mst_weight(vector<pair<int,int>> e,vector<int> w){
-    int n = w.size(),ans = 0;
-    vector<int> p(n);
-    priority_queue<Non> q;
-
-    forr(i,0,n)q.push({e[i].first,e[i].second,w[i]});
-    forr(i,0,n)p[i] = i;
-
-    while(!q.empty()){
-        auto [u,v,w] = q.top();
-        q.pop();
-
-        if(fp(p,u)==fp(p,v))continue;
-        p[fp(p,v)] = fp(p,u);
-        ans += w;
-    }
-
-    return ans;
-}
-
-// Score : 85
-vector<pair<int,int>> route1(int N, vector<int> W){
+vector<pair<int,int>> route(int N, vector<int> W){
     int n = N, m = W.size();
     vector<pair<int,int>> ans(m);
-    int st = m - n + 1;
-    for(int i=st,j=1;i<m;i++,j++)ans[i] = {j,j+1};
-
-    int remain = st;
-    int i = 3, j = 1,idx = 0;
-    while(remain--){
-        ans[idx++] = {j++,i};
-        if(i-j==1)i++,j=1;
+    
+    int i = 2,j = 1,idx = 0;
+    while(m>idx&&m-idx>n-i){
+        ans[idx++] = {j--,i};
+        if(!j)i++,j=i-1;
     }
-
+    forr(k,i,n)ans[idx++] = {k,k+1};
     return ans;
-}
-
-// Score : 65
-vector<pair<int,int>> route2(int N, vector<int> W){
-    int n = N, m = W.size();
-    vector<pair<int,int>> ans(m);
-    int st = m - n + 1;
-    for(int i=st,j=1;i<m;i++,j++)ans[i] = {j,j+1};
-
-    int remain = st;
-    int i = 3, j = 1,idx = st - 1;
-    while(remain--){
-        ans[idx--] = {j++,i};
-        if(i-j==1)i++,j=1;
-    }
-
-    return ans;
-}
-
-int main(){macos;
-
-    int n,m;
-    cin >> n >> m;
-    vector<int> w(m);
-    forr(i,0,m)cin >> w[i];
-    vector<pair<int,int>> ans = route1(n,w);
-    cout << mst_weight(ans,w) << endll;
-
-    ans = route2(n,w);
-    cout << mst_weight(ans,w) << endll;
-
-    // for(auto [i,j]:ans)cout << i << sp << j << endll;cout << endll;
-
-    return 0;
 }

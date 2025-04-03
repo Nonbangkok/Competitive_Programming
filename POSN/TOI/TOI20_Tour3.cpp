@@ -5,57 +5,48 @@
 #define macos ios::sync_with_stdio(0);cin.tie(0);cout.tie(0)
 #define endll "\n"
 #define sp " "
-#define int long long
 typedef long long ll;
 using namespace std;
 
-const int N = 2e5+10;
-
-struct Non{
-    int v,t;
-    ll num;
-};
-
-vector<Non> adj[N];
-vector<pair<ll,ll>> Points;
+const int N = 2e5 + 10;
+ll n,m,l,z,a,b,c,d;
+vector<tuple<ll,ll,ll>> adj[N];
+vector<pair<ll,ll>> Pts;
 set<pair<ll,ll>> s;
-int n,m,l,temp,a,b,c;
-ll d;
 
-ll dis(pair<ll,ll> a, pair<ll,ll> b){
-    return (a.first-b.first)*(a.first-b.first)+(a.second-b.second)*(a.second-b.second);
-}
-
-void dfs(int i, ll s1, ll s2){
-    if(i == n)Points.push_back({s1,s2});
-    for(auto [j,t,m] : adj[i]){
-        if(t == 1)dfs(j,s1+m,s2);
-        else dfs(j,s1,s2+m);
+void dfs(ll u, ll wa, ll wb){
+    if(u==n)Pts.push_back({wa,wb});
+    else for(auto [v,t,w]:adj[u]){
+        if(t==1)dfs(v,wa+w,wb);
+        else dfs(v,wa,wb+w);
     }
 }
 
-int32_t main(){macos;
+int main(){macos;
 
     cin >> n >> m >> l;
-    forr(i,0,l)cin >> temp;
+    forr(i,0,l)cin >> z;
     forr(i,0,m){
         cin >> a >> b >> c >> d;
         adj[a].push_back({b,c,d});
     }
-    
+
     dfs(1,0,0);
 
-    sort(Points.begin(),Points.end());
+    sort(Pts.begin(),Pts.end());
 
-    int j = 0, n = Points.size();
-    ll ans = LLONG_MAX;
-    forr(i,0,n){
+    ll j = 0, ans = LLONG_MAX;
+    forr(i,0,Pts.size()){
         d = sqrt(ans) + 1;
-        while(!s.empty() && Points[i].first-Points[j].first >= ans)s.erase({Points[j].second,Points[j].first}),j++;
-        auto l = s.lower_bound({Points[i].second-d,Points[i].first});
-        auto r = s.upper_bound({Points[i].second+d,Points[i].first});
-        for(auto it=l;it!=r;it++)ans = min(ans,dis({Points[i].second,Points[i].first},*it));
-        s.insert({Points[i].second,Points[i].first});
+        while(Pts[j].first-Pts[i].first>=d)s.erase({Pts[j].second,Pts[j].first}),j++;
+        auto l = s.lower_bound({Pts[i].second-d,Pts[i].first});
+        auto r = s.lower_bound({Pts[i].second+d,Pts[i].first});
+        for(auto it=l;it!=r;it++){
+            ll dx = (Pts[i].first-it->second);
+            ll dy = (Pts[i].second-it->first);
+            ans = min(ans,dx*dx+dy*dy);
+        }
+        s.insert({Pts[i].second,Pts[i].first});
     }
 
     cout << ans;
