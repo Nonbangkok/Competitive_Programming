@@ -7,22 +7,35 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-multiset<int> s;
+
+const int N = 2e6 + 10;
+int n,q,a,b,k;
+int A[N];
+multiset<int> l,m,r;
+
 int main(){macos;
 
-    int n,m,u,v,tmp;
-    cin >> n >> m >> u >> v;
-    forr(i,0,n)cin >> tmp,s.insert(tmp);
-    multiset<int>::iterator x,y;
+    cin >> n >> q >> a >> b;
+    forr(i,1,n+1)cin >> A[i];
+    sort(A+1,A+n+1);
 
-    while(m--){
-        x=s.begin(),y=s.begin();
-        forr(i,1,u)x++;forr(i,1,v)y++;
-        int a=*x,b=*y;
-        s.erase(x);s.erase(y);
-        s.insert(b-a);s.insert((a+b)>>1);
+    forr(i,1,n+1){
+        if(i<=a)l.insert(A[i]);
+        else if(i<=b)m.insert(A[i]);
+        else r.insert(A[i]);
     }
-    for(auto i:s)cout << i << sp;
+
+    while(q--){
+        int x = *prev(m.end()) - *prev(l.end());
+        int y = (*prev(m.end()) + *prev(l.end())) >> 1;
+        l.erase(prev(l.end()));m.erase(prev(m.end()));
+        m.insert(x);m.insert(y);
+        while(l.size()!=a)l.insert(*m.begin()),m.erase(m.begin());
+    }
+
+    for(int x:l)cout << x << sp;
+    for(int x:m)cout << x << sp;
+    for(int x:r)cout << x << sp;
 
     return 0;
 }

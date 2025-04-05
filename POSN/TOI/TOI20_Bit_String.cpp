@@ -9,41 +9,37 @@ typedef long long ll;
 using namespace std;
 
 const int N = (1<<20);
-int n,q,tmp,w;
-ll A[N],dp[N];
+ll n,q,k,a,b;
+ll dp[N],w[N];
 string s;
 
 int main(){macos;
 
     cin >> n >> q;
     forr(i,0,1<<n){
-        cin >> s >> w;
-        tmp = 0;
-        reverse(s.begin(),s.end());
-        forr(j,0,n)if(s[j]-'0')tmp|=(1<<j);
-        A[tmp] = w;
-        dp[i] = -1e9;
+        cin >> s >> b;
+        a = 0;
+        forr(i,0,n)a = (a<<1) + (s[i]-'0');
+        w[a] = b;
     }
 
-    dp[0] = 0;
-
-    forr(i,0,1<<n){
+    forr(i,1,1<<n){
+        dp[i] = -1e18;
         forr(j,0,n){
-            if(i&(1<<j))continue;
-            dp[i|(1<<j)] = max(dp[i|(1<<j)],dp[i]+A[i|(1<<j)]);
+            if(!(i&(1<<j)))continue;
+            dp[i] = max(dp[i],dp[i^(1<<j)] + w[i]);
 
-            int k = j+1;
-            if(j==n-1||i&(1<<k))continue;
-            dp[(i|(1<<j)|(1<<k))] = max(dp[(i|(1<<j)|(1<<k))],dp[i]+A[(i|(1<<j)|(1<<k))]);
+            k = j + 1;
+            if(k==n||!(i&(1<<k)))continue;
+            dp[i] = max(dp[i],dp[(i^(1<<j))^(1<<k)] + w[i]);
         }
     }
 
     while(q--){
         cin >> s;
-        tmp = 0;
-        reverse(s.begin(),s.end());
-        forr(i,0,n)if(s[i]-'0')tmp|=(1<<i);
-        cout << dp[tmp] << endll;
+        a = 0;
+        forr(i,0,n)a = (a<<1) + (s[i]-'0');
+        cout << dp[a] << endll;
     }
 
     return 0;
