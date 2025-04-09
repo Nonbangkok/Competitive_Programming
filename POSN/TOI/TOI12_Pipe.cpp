@@ -7,41 +7,36 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-priority_queue<int> ans;
+
+const int N = 15000 + 10;
+int n,k,ans,curr,nxt,mn;
+int dis[N];
+bool vis[N];
+pair<int,int> A[N];
+
 int main() {macos;
 
-    int n,k,a,b;
     cin >> n >> k;
-    vector<int> dis(n,INT_MAX);
-    vector<pair<int,int>> A;
-    forr(i,0,n){
-        cin >> a >> b;
-        A.push_back({a,b});
+    forr(i,1,n+1){
+        cin >> A[i].first >> A[i].second;
+        dis[i] = 1e9;
     }
     
-    int i=0,sum=0;
-    while(1){
-        int mn=INT_MAX,ix=-1;
-        dis[i]=-1;
-        forr(j,0,n){
-            if(dis[j]==-1)continue;
-            dis[j]=min(dis[j],abs(A[i].first-A[j].first)+abs(A[i].second-A[j].second));
-            if(mn>dis[j]){
-                mn=dis[j];
-                ix=j;
-            }
+    curr = 1;
+    forr(i,1,n+1){
+        vis[curr] = 1;
+        mn = 1e9;
+        forr(j,1,n+1){
+            if(vis[j])continue;
+            dis[j] = min(dis[j],abs(A[curr].first-A[j].first)+abs(A[curr].second-A[j].second));
+            if(dis[j]<mn)mn = dis[j],nxt = j;
         }
-        if(ix==-1)break;
-        i=ix;
-        ans.push(mn);
-        sum+=mn;
+        curr = nxt;
     }
-    k--;
-    while(k--){
-        sum-=ans.top();
-        ans.pop();
-    }
-    cout << sum;
+    
+    sort(dis+1,dis+n+1);
+    for(int i=1;i<=n-k;i++)ans += dis[i];
+    cout << ans;
 
     return 0;
 }
