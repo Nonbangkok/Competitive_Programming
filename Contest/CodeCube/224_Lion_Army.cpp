@@ -8,9 +8,11 @@
 typedef long long ll;
 using namespace std;
 
-const int N = 3e5+10,M = 1e9+7;
-int p[N],n,m,x,u,v,cnt;
+const int N = 2 * 3e5 + 10, M = 1e9 + 7;
+int n,m,x,u,v,cnt;
+int p[N];
 ll ans,a;
+ll dp[N >> 1];
 bool chk;
 
 int fp(int x){
@@ -18,34 +20,28 @@ int fp(int x){
     return p[x];
 }
 
-int solve(){
-    cin >> x >> u >> v;
-    if(chk)return 0;
-    if(u>v)swap(u,v);
-    if(fp(u)!=fp(v)){
-        p[fp(v)] = fp(u);
-        
-    }else if((x&&)||(!x&&)){
-        chk = true;
-        return 0;
-    }
-    a = 2,cnt = 0,ans = 1;
-    forr(i,1,n+1)cnt += (i == p[i]);
-    while(cnt){
-        if(cnt&1)ans = (ans*a) %M;
-        a = (a*a) %M;
-        cnt >>= 1;
-    }
-    return ans;
+void dsu(int a, int b){
+    a = fp(a), b = fp(b);
+    if(a==b)return;
+    p[b] = a;
+    cnt--;
 }
 
 int main(){macos;
 
     cin >> n >> m;
 
-    forr(i,1,n+1)p[i] = i;
+    dp[0] = 1;
+    forr(i,1,2*n+1)p[i] = i;
+    forr(i,1,n+1)dp[i] = (dp[i-1] << 1) % M;
+    cnt = n << 1;
     while(m--){
-        cout << solve() << endll;
+        cin >> x >> u >> v;
+        if(x)dsu(u,v),dsu(u+n,v+n);
+        else dsu(u+n,v),dsu(u,v+n);
+        if(cnt&1)chk = true;
+        if(chk)cout << 0 << endll;
+        else cout << dp[cnt>>1] << endll;
     }
 
     return 0;
