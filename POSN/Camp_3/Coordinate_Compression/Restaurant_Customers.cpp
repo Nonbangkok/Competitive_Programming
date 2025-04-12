@@ -7,27 +7,35 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
+
 //Cses 1619
+const int N = 2e5 + 10;
+int n,a,b,mx,cnt;
+int line[2*N];
+vector<pair<int,int>> times;
+vector<int> coor;
+
 int main(){macos;
 
-    vector<pair<int,int>> A;
-    int n;
     cin >> n;
-    
     forr(i,0,n){
-        int a,b;
         cin >> a >> b;
-
-        A.push_back({a,1});
-        A.push_back({b,-1});
+        times.push_back({a,b});
+        coor.push_back(a);
+        coor.push_back(b);
     }
-    sort(A.begin(),A.end());
+    
+    sort(coor.begin(),coor.end());
+    coor.erase(unique(coor.begin(),coor.end()),coor.end());
 
-    int cnt=0,mx=INT_MIN;
-    forr(i,0,A.size()){
-        cnt+=A[i].second;
-        mx=max(mx,cnt);
+    for(auto [st,en]:times){
+        st = lower_bound(coor.begin(),coor.end(),st) - coor.begin();
+        en = lower_bound(coor.begin(),coor.end(),en) - coor.begin();
+        line[st]++;
+        line[en]--;
     }
+
+    forr(i,0,coor.size())cnt += line[i], mx = max(mx,cnt);
     cout << mx;
 
     return 0;

@@ -8,27 +8,16 @@
 typedef long long ll;
 using namespace std;
 
+const int N = 310;
+int n;
+ll dp[N][N],w[N][N];
+
 int main(){macos;
 
-    vector<pair<int,int>> A;
-    int n;
     cin >> n;
+    forr(i,1,n+1)forr(i,1,n+1)cin >> w[i][j];
+
     
-    forr(i,0,n){
-        int a,b;
-        cin >> a >> b;
-
-        A.push_back({a,1});
-        A.push_back({b,-1});
-    }
-    sort(A.begin(),A.end());
-
-    int cnt=0,mx=INT_MIN;
-    forr(i,0,A.size()){
-        cnt+=A[i].second;
-        mx=max(mx,cnt);
-    }
-    cout << mx;
 
     return 0;
 }
