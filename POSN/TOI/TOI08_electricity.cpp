@@ -8,26 +8,26 @@
 typedef long long ll;
 using namespace std;
 
-const int N = 5e5+10;
-int dp[N],A[N];
-int n,k;
-deque<pair<int,int>> dq;
+const int N = 5e5 + 10;
+ll n,k;
+ll p[N],dp[N];
+deque<int> dq;
 
 int main(){macos;
 
     cin >> n >> k;
-    forr(i,0,n)cin >> A[i];
+    forr(i,1,n+1)cin >> p[i];
 
-    dq.push_back({0,A[0]});
-
-    forr(i,1,n){
-        while(!dq.empty()&&i-dq.front().first>k)dq.pop_front();
-        dp[i] = dq.front().second + A[i];
-        while(!dq.empty()&&dp[i]<=dq.back().second)dq.pop_back();
-        dq.push_back({i,dp[i]});
+    dq.push_back(1);
+    dp[1] = p[1];
+    forr(i,2,n+1){
+        while(!dq.empty()&&i-dq.front()>k)dq.pop_front();
+        dp[i] = p[i] + dp[dq.front()];
+        while(!dq.empty()&&dp[i]<=dp[dq.back()])dq.pop_back();
+        dq.push_back(i);
     }
 
-    cout << dp[n-1];
+    cout << dp[n];
 
     return 0;
 }
