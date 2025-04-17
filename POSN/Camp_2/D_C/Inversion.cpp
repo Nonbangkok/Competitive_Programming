@@ -25,7 +25,7 @@ void merge(int A[],int f,int l){
             i++;
         }else{
             A[k]=R[j];
-            ans+=(n1-i);n
+            ans+=(n1-i);
             j++;
         }
         k++;

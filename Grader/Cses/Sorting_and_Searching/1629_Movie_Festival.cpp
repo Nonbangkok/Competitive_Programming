@@ -8,25 +8,25 @@
 typedef long long ll;
 using namespace std;
 
-const int N = 2e5 + 10;
-int n,w,cnt;
-int a[N];
+int n,a,b,cnt;
+vector<pair<int,int>> Movies;
 
 int main(){macos;
 
-    cin >> n >> w;
-    forr(i,0,n)cin >> a[i];
+    cin >> n;
+    forr(i,0,n)cin >> a >> b,Movies.push_back({b,a});
 
-    sort(a,a+n);
+    sort(Movies.begin(),Movies.end());
 
-    int i = 0, j = n-1;
-    while(i<j){
-        if(a[i]+a[j]<=w)i++;
-        cnt++;
-        j--;
+    int last = -1;
+    for(auto [en,st]:Movies){
+        if(last<=st){
+            last = en;
+            cnt++;
+        }
     }
 
-    cout << cnt + (i==j);
+    cout << cnt;
 
     return 0;
 }

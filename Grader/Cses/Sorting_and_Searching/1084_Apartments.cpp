@@ -7,26 +7,27 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-const int N = 2e5+10;
-int app[N],apart[N];
+
+const int N = 2e5 + 10;
+int n,m,k,cnt;
+int a[N],b[N];
+
 int main(){macos;
 
-    int n,m,k;
     cin >> n >> m >> k;
-    forr(i,0,n)cin >> app[i];
-    forr(i,0,m)cin >> apart[i];
-    sort(app,app+n);
-    sort(apart,apart+m);
+    forr(i,0,n)cin >> a[i];
+    forr(i,0,m)cin >> b[i];
+    
+    sort(a,a+n);
+    sort(b,b+m);
 
-    int i = 0, j = 0, cnt = 0;
-    while(i<n && j<m){
-        if(app[i]-k<=apart[j]&&apart[j]<=app[i]+k){
-            cnt++;
-            i++;
-            j++;
-        }else if(app[i]<apart[j])i++;
+    int i = 0, j = 0;
+    while(i<n&&j<m){
+        if(a[i]-k<=b[j]&&b[j]<=a[i]+k)cnt++,i++,j++;
+        else if(a[i]<b[j])i++;
         else j++;
     }
+
     cout << cnt;
 
     return 0;

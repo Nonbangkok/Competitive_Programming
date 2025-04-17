@@ -9,24 +9,24 @@ typedef long long ll;
 using namespace std;
 
 const int N = 2e5 + 10;
-int n,w,cnt;
-int a[N];
+int n,k,x;
+vector<pair<int,int>> a;
 
 int main(){macos;
 
-    cin >> n >> w;
-    forr(i,0,n)cin >> a[i];
+    cin >> n >> k;
+    forr(i,1,n+1)cin >> x,a.push_back({x,i});
 
-    sort(a,a+n);
+    sort(a.begin(),a.end());
 
     int i = 0, j = n-1;
     while(i<j){
-        if(a[i]+a[j]<=w)i++;
-        cnt++;
-        j--;
+        if(a[i].first+a[j].first==k){cout << a[i].second << sp << a[j].second;return 0;}
+        else if(a[i].first+a[j].first<k)i++;
+        else j--;
     }
 
-    cout << cnt + (i==j);
+    cout << "IMPOSSIBLE";
 
     return 0;
 }

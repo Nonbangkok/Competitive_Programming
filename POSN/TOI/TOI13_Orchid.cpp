@@ -7,24 +7,21 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-//Longest Nondecreasing Subsequence(LNS)
-const int N=1e6;
-int A[N];
-int main() {macos;
 
-    int n,ans=0,x;
+int n,x;
+vector<int> lis;
+
+int main(){macos;
+
     cin >> n;
     forr(i,0,n){
         cin >> x;
-        int idx=lower_bound(A,A+ans,x)-A;
-        if(ans==idx)ans++;
-        A[idx]=x;
-
-        // cout << endll;
-        // forr(i,0,n)cout << dp[i] << sp;cout << endll;
-        // cout << "idx: " << idx << sp << "ans: " << ans << endll;
+        auto idx = upper_bound(lis.begin(),lis.end(),x);
+        if(idx==lis.end())lis.push_back(x);
+        else *idx = x;
     }
-    cout << n-ans;
+
+    cout << n - lis.size();
 
     return 0;
 }

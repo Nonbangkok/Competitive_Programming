@@ -9,24 +9,22 @@ typedef long long ll;
 using namespace std;
 
 const int N = 2e5 + 10;
-int n,w,cnt;
-int a[N];
+int n,m,x;
+multiset<int> s;
 
 int main(){macos;
 
-    cin >> n >> w;
-    forr(i,0,n)cin >> a[i];
+    cin >> n >> m;
+    forr(i,0,n)cin >> x,s.insert(x);
 
-    sort(a,a+n);
-
-    int i = 0, j = n-1;
-    while(i<j){
-        if(a[i]+a[j]<=w)i++;
-        cnt++;
-        j--;
+    while(m--){
+        cin >> x;
+        auto it = s.upper_bound(x);
+        if(it!=s.begin()){
+            cout << *prev(it) << endll;
+            s.erase(prev(it));
+        }else cout << -1 << endll;
     }
-
-    cout << cnt + (i==j);
 
     return 0;
 }

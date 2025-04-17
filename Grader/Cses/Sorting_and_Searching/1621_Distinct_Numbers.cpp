@@ -7,18 +7,18 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
+
 set<int> s;
+int n,a;
+
 int main(){macos;
 
-    int n;
     cin >> n;
-
     forr(i,0,n){
-        int temp;
-        cin >> temp;
-        s.insert(temp);
+        cin >> a;
+        s.insert(a);
     }
-    
+
     cout << s.size();
 
     return 0;

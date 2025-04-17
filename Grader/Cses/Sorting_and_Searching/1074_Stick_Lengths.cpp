@@ -9,24 +9,16 @@ typedef long long ll;
 using namespace std;
 
 const int N = 2e5 + 10;
-int n,w,cnt;
-int a[N];
+ll n,ans;
+ll a[N];
 
 int main(){macos;
 
-    cin >> n >> w;
+    cin >> n; 
     forr(i,0,n)cin >> a[i];
-
     sort(a,a+n);
-
-    int i = 0, j = n-1;
-    while(i<j){
-        if(a[i]+a[j]<=w)i++;
-        cnt++;
-        j--;
-    }
-
-    cout << cnt + (i==j);
+    forr(i,0,n)ans += abs(a[n/2]-a[i]);
+    cout << ans;
 
     return 0;
 }

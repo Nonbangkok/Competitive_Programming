@@ -7,40 +7,34 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-const int N=2e5+10;
-int n,q,A[N],dp[N][2];
 
-void LIS(int x){
-    int tmp[n],ans=0;
+const int N = 2e5 + 10;
+int n,q,x;
+int dp[2][N];
+vector<int> orchid;
+
+void LIS(int s){
+    vector<int> lis;
     forr(i,0,n){
-        int idx=lower_bound(tmp,tmp+ans,A[i])-tmp;
-        if(idx==ans)ans++;
-        tmp[idx]=A[i];
-        dp[i][x]=idx;
+        auto it = lower_bound(lis.begin(),lis.end(),orchid[i]);
+        dp[s][i] = it - lis.begin();
+        if(it==lis.end())lis.push_back(orchid[i]);
+        else *it = orchid[i];
     }
 }
 
 int main(){macos;
 
     cin >> n >> q;
-    forr(i,0,n)cin >> A[i];
+    forr(i,0,n)cin >> x,orchid.push_back(x);
 
     LIS(0);
-    reverse(A,A+n);
+    reverse(orchid.begin(),orchid.end());
     LIS(1);
-    
 
-    // forr(i,0,2){
-    //     forr(j,0,n){
-    //         cout << dp[j][i] << sp;
-    //     }
-    //     cout << endll;
-    // }
-
-    int x;
-    forr(i,0,q){
+    while(q--){
         cin >> x;
-        cout << min(dp[x][0],dp[n-x-1][1]) << endll;
+        cout << min(dp[0][x],dp[1][n-x-1]) << endll;
     }
 
     return 0;

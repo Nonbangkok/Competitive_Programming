@@ -9,24 +9,19 @@ typedef long long ll;
 using namespace std;
 
 const int N = 2e5 + 10;
-int n,w,cnt;
-int a[N];
+ll n,sum;
+ll a[N];
 
 int main(){macos;
 
-    cin >> n >> w;
+    cin >> n; 
     forr(i,0,n)cin >> a[i];
-
     sort(a,a+n);
-
-    int i = 0, j = n-1;
-    while(i<j){
-        if(a[i]+a[j]<=w)i++;
-        cnt++;
-        j--;
+    forr(i,0,n){
+        if(a[i]>sum+1)break;
+        sum += a[i];
     }
-
-    cout << cnt + (i==j);
+    cout << sum + 1;
 
     return 0;
 }

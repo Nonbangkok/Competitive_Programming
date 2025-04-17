@@ -13,32 +13,22 @@ using namespace __gnu_pbds;
 template<class T>
 using ordered_multiset=tree<T,null_type,less<T>,rb_tree_tag,tree_order_statistics_node_update>;
 
-const int N = 2e5 + 10;
-int salary[N];
-int n,m,a,b;
-char cmd;
-ordered_multiset<pair<int,int>> s;
+const int N = 1e5 + 10;
+const int M = 1e9 + 7;
+ll n,x,cnt;
+ordered_multiset<pair<ll,ll>> s;
 
 int main(){macos;
 
-    cin >> n >> m;
-
+    cin >> n;
     forr(i,0,n){
-        cin >> salary[i];
-        s.insert({salary[i],i});
+        cin >> x;
+        // cnt += s.size() - s.order_of_key({x,0}); // a[i]>=a[j]
+        cnt += s.size() - s.order_of_key({x+1,0}); // a[i]>a[j]
+        cnt %= M;
+        s.insert({x,i});
     }
-
-    while(m--){
-        cin >> cmd >> a >> b;
-        if(cmd=='!'){
-            a--;
-            s.erase(s.find({salary[a],a}));
-            salary[a] = b;
-            s.insert({b,a});
-        }else{
-            cout << s.order_of_key({b+1,0}) - s.order_of_key({a,0}) << endll;
-        }
-    }
+    cout << cnt;
 
     return 0;
 }

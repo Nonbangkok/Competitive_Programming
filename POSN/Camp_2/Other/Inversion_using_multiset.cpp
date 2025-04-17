@@ -17,7 +17,6 @@ int main(){macos;
     forr(i,0,n){
         cin >> a[i];
         mp.insert(a[i]);
-        //cnt+=distance(upper_bound(mp.begin(),mp.end(),a[i]),mp.end());
         cnt += distance(mp.upper_bound(a[i]),mp.end());
     }
     cout << cnt << endll;
