@@ -7,65 +7,73 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-const int N=4e5+10;
 
 struct Non{
-    int l,r,ix;
+    int l,r,idx;
 
     bool operator < (const Non &rhs)const{
-        if(r!=rhs.r)return r<rhs.r;
-        return l>rhs.l;
+        if(l!=rhs.l)return l>rhs.l;
+        return r<rhs.r;
     }
 };
 
-int seg[8*N];
-vector<Non> A;
+const int N = 4e5 + 10;
+int n,a,b,mx;
+int ans[N];
+vector<Non> mnt;
 vector<int> coor;
-vector<int> ans(N);
 
-void update(int l,int r,int node,int idx,int val){
-    if(idx<l||r<idx)return;
-    if(l==r){seg[node]=max(seg[node],val);return;}
+struct Segment_tree{
+    int seg[8*N];
 
-    int mid=(l+r)>>1;
+    Segment_tree(){
+        forr(i,0,8*N)seg[i] = 0;
+    }
 
-    update(l,mid,node<<1,idx,val);
-    update(mid+1,r,(node<<1)+1,idx,val);
+    void update(int l, int r, int node, int idx, int val){
+        if(idx<l||r<idx)return;
+        if(l==r){seg[node]=max(seg[node],val);return;}
 
-    seg[node]=max(seg[node<<1],seg[(node<<1)+1]);
-}
+        int mid = (l+r) >> 1;
 
-int query(int l,int r,int ql,int qr,int node){
-    if(qr<l||r<ql)return -1;
-    if(ql<=l&&r<=qr)return seg[node];
+        update(l,mid,node<<1,idx,val);
+        update(mid+1,r,(node<<1)+1,idx,val);
 
-    int mid=(l+r)>>1;
+        seg[node] = max(seg[node<<1],seg[(node<<1)+1]);
+    }
 
-    return max(query(l,mid,ql,qr,node<<1),query(mid+1,r,ql,qr,(node<<1)+1));
-}
+    int query(int l, int r, int ql, int qr, int node){
+        if(qr<l||r<ql)return -1;
+        if(ql<=l&&r<=qr)return seg[node];
+
+        int mid = (l+r) >> 1;
+
+        return max(query(l,mid,ql,qr,node<<1),query(mid+1,r,ql,qr,(node<<1)+1));
+    }
+    
+}seg;
 
 int main(){macos;
 
-    int n,a,b;
     cin >> n;
     forr(i,0,n){
         cin >> a >> b;
-        A.push_back({a,b,i});
-        coor.push_back(a);
-        coor.push_back(b);
+        mnt.push_back({a,b,i});
+        coor.push_back(a);coor.push_back(b);
     }
-    sort(A.begin(),A.end());
+
+    sort(mnt.begin(),mnt.end());
     sort(coor.begin(),coor.end());
     coor.erase(unique(coor.begin(),coor.end()),coor.end());
 
-    int mx=-1;
-    for(auto [l,r,idx]:A){
-        l=lower_bound(coor.begin(),coor.end(),l)-coor.begin()+1;
-        r=lower_bound(coor.begin(),coor.end(),r)-coor.begin()+1;
-        ans[idx]=query(1,coor.size()+1,l,r,1)+1;
-        update(1,coor.size()+1,1,l,ans[idx]);
-        mx=max(mx,ans[idx]);
+    for(auto [l,r,i]:mnt){
+        l = lower_bound(coor.begin(),coor.end(),l)-coor.begin()+1;
+        r = lower_bound(coor.begin(),coor.end(),r)-coor.begin()+1;
+        ans[i] = seg.query(1,coor.size()+1,l,r,1) + 1;
+        seg.update(1,coor.size()+1,1,r,ans[i]);
+        mx = max(mx,ans[i]);
     }
+
     cout << mx << endll;
     forr(i,0,n)cout << ans[i] << sp;
 

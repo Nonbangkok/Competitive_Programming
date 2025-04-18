@@ -7,38 +7,41 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-const int N=4e5+10;
 
 struct Non{
-    int l,r,ix;
+    int l,r,idx;
 
     bool operator < (const Non &rhs)const{
-        if(r!=rhs.r)return r<rhs.r;
-        return l>rhs.l;
+        if(l!=rhs.l)return l>rhs.l;
+        return r<rhs.r;
     }
 };
 
-vector<Non> mount;
-vector<int> tmp(N),ans(N);
+const int N = 4e5 + 10;
+int n,a,b,mx;
+int ans[N];
+vector<Non> mnt;
+vector<int> lis;
 
 int main(){macos;
 
-    int n,a,b;
     cin >> n;
     forr(i,0,n){
         cin >> a >> b;
-        mount.push_back({a,b,i});
+        mnt.push_back({a,b,i});
     }
-    sort(mount.begin(),mount.end());
 
-    int last=0;
-    forr(i,0,n){
-        int idx=upper_bound(tmp.begin(),tmp.begin()+last,-mount[i].l)-tmp.begin();
-        if(idx==last)last++;
-        tmp[idx]=-mount[i].l;
-        ans[mount[i].ix]=idx+1;
+    sort(mnt.begin(),mnt.end());
+
+    for(auto [l,r,i]:mnt){
+        auto it = upper_bound(lis.begin(),lis.end(),r);
+        ans[i] = (it-lis.begin()) + 1;
+        if(it==lis.end())lis.push_back(r);
+        else *it = r;
+        mx = max(mx,ans[i]);
     }
-    cout << last << endll;
+    
+    cout << mx << endll;
     forr(i,0,n)cout << ans[i] << sp;
 
     return 0;

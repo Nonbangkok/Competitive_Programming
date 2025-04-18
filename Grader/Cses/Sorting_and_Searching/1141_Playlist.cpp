@@ -9,24 +9,23 @@ typedef long long ll;
 using namespace std;
 
 const int N = 2e5 + 10;
-ll n,m,x,y,cnt = 1;
-ll a[N],b[N];
+int n,j,mx;
+int a[N];
+set<int> s;
 
 int main(){macos;
 
-    cin >> n >> m;
-    forr(i,0,n)cin >> a[i];
-    forr(i,0,n)b[a[i]-1] = i + 1;
-    forr(i,0,n)cout << b[i] << sp;cout << endll;
-    forr(i,0,n-1)if(b[i]>b[i+1])cnt++;
-    
-    while(m--){
-        cin >> x >> y;
-        swap(b[a[x-1]-1],b[a[y-1]-1]);
-        forr(i,0,n)cout << b[i] << sp;cout << endll;
+    cin >> n;
+    forr(i,0,n){
+        cin >> a[i];
+        if(s.find(a[i])!=s.end()){
+            while(a[j] != a[i])s.erase(a[j++]);
+            s.erase(a[j++]);
+        }
+        s.insert(a[i]);
+        mx = max(mx,int(s.size()));
     }
-
-    // not finished
+    cout << mx;
 
     return 0;
 }
