@@ -7,18 +7,22 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-const int N=1e5+10;
-int dp[N][3];
+
+const int N = 1e5 + 10;
+int n;
+int a[N][4],dp[N][4];
+
 int main(){macos;
 
-    int n,mx=-1;
     cin >> n;
-    forr(i,1,n+1)forr(j,0,3){
-        cin >> dp[i][j];
-        dp[i][j]+=max(j!=0?dp[i-1][0]:0,max(j!=1?dp[i-1][1]:0,j!=2?dp[i-1][2]:0));
-        if(i==n)mx=max(mx,dp[i][j]);
+    forr(i,1,n+1)forr(j,1,4)cin >> a[i][j];
+
+    forr(i,1,n+1)forr(j,1,4)forr(k,1,4){
+        if(j==k)continue;
+        dp[i][j] = max(dp[i][j],dp[i-1][k]+a[i][j]);
     }
-    cout << mx;
+
+    cout << max({dp[n][1],dp[n][2],dp[n][3]});
 
     return 0;
 }

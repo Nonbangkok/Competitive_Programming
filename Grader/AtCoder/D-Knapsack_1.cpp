@@ -7,22 +7,29 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-const int N=101,M=1e5+10;
-int n,w,W[N];
-ll V[N],dp[N][M];
 
-ll solve(int i,int j){
-    if(i==n)return 0;
-    if(dp[i][j])return dp[i][j];
-    if(W[i]>j)return dp[i][j]=solve(i+1,j);
-    return dp[i][j]=max(solve(i+1,j),V[i]+solve(i+1,j-W[i]));
-}
+const int N = 110, M = 1e5 + 10;
+ll n,w;
+ll dp[M],W[N],V[N];
 
 int main(){macos;
 
     cin >> n >> w;
-    forr(i,0,n)cin >> W[i] >> V[i];
-    cout << solve(0,w);
+    forr(i,1,n+1)cin >> W[i] >> V[i];
+
+    // forr(i,1,n+1){
+    //     forl(j,w,-1){
+    //         if(j-W[i]>=0)dp[j] = max(dp[j],dp[j-W[i]]+V[i]);
+    //     }
+    // }
+
+    forr(i,1,n+1){
+        forl(j,w,W[i]-1){
+            dp[j] = max(dp[j],dp[j-W[i]]+V[i]);
+        }
+    }
+
+    cout << dp[w];
 
     return 0;
 }

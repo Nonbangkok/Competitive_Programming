@@ -7,22 +7,28 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-const int N=22,M=1e9+7;
-bool A[N][N];
-ll dp[N][1<<N];
+
+const int N = 22, M = 1e9 + 7;
+int n;
+ll a[N][N],dp[N][1<<N];
+
 int main(){macos;
 
-    int n;
     cin >> n;
-    forr(i,0,n)forr(j,0,n)cin >> A[i][j];
-    forr(i,0,n)forr(k,0,1<<n){
-        if(i&&!dp[i-1][k])continue;
-        forr(j,0,n){
-            if(k&(1<<j)||!A[i][j])continue;
-            dp[i][k|(1<<j)]+=(i-1>=0?dp[i-1][k]:1),dp[i][k|(1<<j)]%=M;
+    forr(i,1,n+1)forr(j,1,n+1)cin >> a[i][j];
+
+    dp[0][0] = 1LL;
+    forr(j,0,1<<n){
+        forr(i,1,n+1){
+            if(!dp[i-1][j])continue;
+            forr(k,1,n+1){
+                if(!a[i][k]||j&(1<<(k-1)))continue;
+                dp[i][j|(1<<(k-1))] = (dp[i][j|(1<<(k-1))] + dp[i-1][j]) % M;
+            }
         }
     }
-    cout << dp[n-1][(1<<n)-1];
+
+    cout << dp[n][(1<<n)-1];
 
     return 0;
 }

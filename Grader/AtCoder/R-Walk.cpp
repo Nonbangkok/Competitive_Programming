@@ -1,4 +1,3 @@
-
 #include <bits/stdc++.h>
 #define coutf(n, m) cout << fixed << setprecision(n) << m
 #define forr(i, a, n) for (int i = a; i < n; i++)
@@ -8,41 +7,47 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-const int N=51,M=1e9+7;
-vector<int> adj[N];
-ll n,k;
 
-ll dfs(int i,ll c){
-    if(c == k)return 1;
+const int N = 51, M = 1e9 + 7;
 
-    ll cnt = 0;
-    for(int j :adj[i]){
-        cnt += dfs(j,c+1);
-        cnt %= M;
+struct Non{
+    int n,m;
+    ll a[N][N];
+
+    Non(int x, int y,ll z){
+        n = x,m = y;
+        forr(i,0,n)forr(j,0,m)a[i][j] = z;
     }
 
-    return cnt;
-}
+    Non operator * (const Non &b){
+        Non c(n,b.m,0);
+        forr(i,0,n)forr(j,0,b.m)forr(k,0,m)c.a[i][j] += a[i][k] * b.a[k][j],c.a[i][j] %= M;
+        return c;
+    }
+
+    Non& operator *= (const Non &b){
+        *this = *this * b;
+        return *this;
+    }
+};
+
+int n;
+ll k,p,ans;
 
 int main(){macos;
 
     cin >> n >> k;
-    forr(i,0,n){
-        forr(j,0,n){
-            int tmp;
-            cin >> tmp;
-            if(tmp)adj[i].push_back(j); 
-        }
-    }
+    Non a(n,n,0),dp(n,1,1);
+    forr(i,0,n)forr(j,0,n)cin >> a.a[i][j];
 
-    ll ans = 0LL;
-    forr(i,0,n){
-        ans += dfs(i,0);
-        ans %= M;
+    p = k;
+    while(p){
+        if(p&1)dp = a * dp;
+        a *= a;
+        p >>= 1;
     }
+    forr(i,0,n)ans += dp.a[i][0],ans %= M;
     cout << ans;
-
-    // Not optimized
 
     return 0;
 }

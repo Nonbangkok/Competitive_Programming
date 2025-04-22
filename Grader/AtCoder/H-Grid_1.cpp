@@ -7,16 +7,23 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-const int N=1e3+10,M=1e9+7;
-char A[N][N];
-ll dp[N][N];
+
+const int N = 1010, M = 1e9 + 7;
+int n,m;
+int dp[N][N];
+string a[N];
+
 int main(){macos;
 
-    int n,m;
     cin >> n >> m;
-    dp[1][1]=1;
-    forr(i,1,n+1)forr(j,1,m+1)cin >> A[i][j];
-    forr(i,1,n+1)forr(j,1,m+1)dp[i][j]+=((A[i-1][j]!='#'?dp[i-1][j]:0)+(A[i][j-1]!='#'?dp[i][j-1]:0))%M;
+    forr(i,0,n)cin >> a[i];
+
+    dp[1][1] = 1;
+    forr(i,1,n+1)forr(j,1,m+1){
+        if(a[i-1][j-1]=='#')continue;
+        dp[i][j] = (dp[i][j] + dp[i-1][j] + dp[i][j-1]) % M;
+    }
+
     cout << dp[n][m];
 
     return 0;
