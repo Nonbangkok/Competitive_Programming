@@ -55,7 +55,7 @@ int main(){macos;
     coor.erase(unique(coor.begin(),coor.end()),coor.end());
 
     for(auto [l,r,i]:mnt){
-        r = lower_bound(coor.begin(),coor.end(),r)-coor.begin()+1;
+        r = upper_bound(coor.begin(),coor.end(),r)-coor.begin();
         ans[i] = fw.query(r) + 1;
         fw.update(r,ans[i]);
         mx = max(mx,ans[i]);

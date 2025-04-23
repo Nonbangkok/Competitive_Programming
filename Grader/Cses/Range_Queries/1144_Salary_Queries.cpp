@@ -9,29 +9,49 @@ typedef long long ll;
 using namespace std;
 
 const int N = 2e5 + 10;
-multiset<int> s;
 int salary[N];
 int n,m,a,b;
 char cmd;
+vector<int> coor;
+vector<tuple<char,int,int>> query;
+
+struct Fenwick{
+    int fw[2*N];
+
+    Fenwick(){
+        forr(i,0,N)fw[i] = 0;
+    }
+
+    void update(int idx, int val){
+        idx = upper_bound(coor.begin(),coor.end(),idx)-coor.begin();
+        for(int i=idx;i<=coor.size();i+=i&-i)fw[i] += val;
+    }
+
+    int query(int idx){
+        idx = upper_bound(coor.begin(),coor.end(),idx)-coor.begin();
+        int sum = 0;
+        for(int i=idx;i>0;i-=i&-i)sum += fw[i];
+        return sum;
+    }
+}fw;
 
 int main(){macos;
 
     cin >> n >> m;
-    forr(i,0,n){
-        cin >> salary[i];
-        s.insert(salary[i]);
-    }
-    while(m--){
+    forr(i,0,n)cin >> salary[i],coor.push_back(salary[i]);
+    forr(i,0,m){
         cin >> cmd >> a >> b;
-        if(cmd=='!'){
-            a--;
-            s.erase(s.lower_bound(salary[a]));
-            salary[a] = b;
-            s.insert(b);
-        }else{
-            cout << distance(s.lower_bound(a), s.upper_bound(b)) << endll;
-        }
-        for(int i:s)cout << i << sp;cout << endll;
+        query.push_back({cmd,a-1,b});
+        if(cmd=='!')coor.push_back(b);
+    }
+
+    sort(coor.begin(),coor.end());
+    coor.erase(unique(coor.begin(),coor.end()),coor.end());
+
+    forr(i,0,n)fw.update(salary[i],1);
+    for(auto [cmd,a,b]:query){
+        if(cmd=='!')fw.update(salary[a],-1),fw.update(salary[a]=b,1);
+        else cout << fw.query(b) - fw.query(a) << endll;
     }
 
     return 0;
