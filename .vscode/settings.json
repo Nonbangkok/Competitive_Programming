@@ -150,7 +150,8 @@
     "source_location": "cpp",
     "memory": "cpp",
     "print": "cpp",
-    "__availability": "cpp"
+    "__availability": "cpp",
+    "chrono": "cpp"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }
