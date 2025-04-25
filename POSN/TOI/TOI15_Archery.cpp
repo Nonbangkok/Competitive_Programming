@@ -7,24 +7,39 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-const int N=5e5+10;
-pair<ll,ll> A[N]; //pos,high
-ll qs[N],n,sum,mnh=LONG_MAX,mn=LONG_MAX,pos=LONG_MAX,tmp;
+
+const int N = 5e5 + 10;
+ll n,k,sum,idx;
+ll mn=1e18,mnbox=1e18;
+ll qs[N];
+pair<ll,ll> box[N];
+
 int main(){macos;
 
     cin >> n;
-    forr(i,1,n+1)cin >> A[i].second,mnh=min(mnh,A[i].second);
-    forr(i,1,n+1)cin >> A[i].first,sum+=A[i].first;
-    sort(A+1,A+n+1);
-    forr(i,1,n+1)qs[i]=qs[i-1]+A[i].second;
+    forr(i,1,n+1)cin >> box[i].second,mnbox = min(mnbox,box[i].second);
+    forr(i,1,n+1)cin >> box[i].first,sum += box[i].first;
+
+    sort(box+1,box+n+1);
+    forr(i,1,n+1)qs[i] = qs[i-1] + box[i].second;
+
+    // forr(i,1,n+1){
+    //     sum = 0;
+    //     forr(j,1,n+1){
+    //         if(box[i].first>box[j].second){sum = 1e18;break;}
+    //         if(i<=j)sum += box[j].first - box[i].first;
+    //         else sum += box[j].second + box[j].first - box[i].first;
+    //     }
+    //     if(mn>sum)mn = sum, idx = box[i].first;
+    // }
 
     forr(i,1,n+1){
-        if(A[i].first>mnh)break;
-        tmp=sum-(A[i].first*n)+qs[i-1];
-        if(mn>tmp)mn=tmp,pos=A[i].first;
-        else if(mn==tmp)pos=min(pos,A[i].first);
+        if(box[i].first>mnbox)break;
+        k = sum + qs[i-1] - n*(box[i].first);
+        if(mn>k)mn = k, idx = box[i].first;
     }
-    cout << pos << sp << mn;
+
+    cout << idx << sp << mn;
 
     return 0;
 }
