@@ -22,7 +22,7 @@ void dfs(int u, int p){
         dp[0][u] *= dp[0][v] + dp[1][v];
         dp[0][u] %= M;
         dp[1][u] *= dp[0][v];
-        dp[1][u] %= M;        
+        dp[1][u] %= M;
     }
 }
 

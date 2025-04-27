@@ -7,66 +7,54 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-const int N=8e4+10,M=(1<<20);
 
 struct Non{
     int v,w;
 
-    bool operator <(const Non &rhs)const{
+    bool operator < (const Non &rhs)const{
         if(w!=rhs.w)return w>rhs.w;
         return v>rhs.v;
     }
 };
 
-vector<Non> adj[M];
-vector<int> dis(M,1e9),des;
+const int N = 19;
+int n,s,a,b,c,mx;
+int poison,anti;
+int dis[1<<N];
+vector<Non> adj[1<<N];
+vector<int> des;
 priority_queue<Non> q;
 
 int main(){macos;
 
-    int n,m,w,a;
-    cin >> n >> m;
+    cin >> n >> s;
     forr(i,0,n){
-        int poi=0,drug=0;
-        cin >> w;
-        forr(j,0,m){
-            cin >> a;
-            if(a==-1)poi|=(1<<j);
-            else if(a==1)drug|=(1<<j);
+        cin >> a;
+        poison = 0, anti = 0;
+        forr(j,0,s){
+            cin >> b;
+            if(b==1)anti |= 1 << j;
+            else if(b==-1) poison |= 1 << j;
         }
-        adj[poi].push_back({drug,w});
-        des.push_back(poi);
+        adj[poison].push_back({anti,a});
+        des.push_back(poison);
     }
 
+    forr(i,0,1<<s)dis[i] = 1e9;
     q.push({0,dis[0]=0});
     while(!q.empty()){
-        auto [node,w]=q.top();
+        int u = q.top().v;
         q.pop();
-        if(dis[node]<w)continue;
 
-        for(auto child:adj[node]){
-            if(dis[child.v]>dis[node]+child.w){
-                q.push({child.v,dis[child.v]=dis[node]+child.w});
-            }
+        for(auto[v,w]:adj[u])if(dis[v]>dis[u]+w)q.push({v,dis[v]=dis[u]+w});
+        forr(i,0,s){
+            int v = u^(1<<i);
+            if(u&(1<<i)&&dis[v]>dis[u])q.push({v,dis[v]=dis[u]});
         }
-
-        forr(i,0,m){
-            if(node&(1<<i)&&dis[node^(1<<i)]>dis[node]){
-                q.push({node^(1<<i),dis[node^(1<<i)]=dis[node]});
-            }
-        }
-
     }
-
-    int ans=0;
-    for(auto i:des)if(dis[i]!=1e9)ans=max(ans,dis[i]);
-    cout << ans;
+    
+    for(int i:des)if(dis[i]!=1e9)mx = max(mx,dis[i]);
+    cout << mx;
 
     return 0;
 }
-/*
-3 2
-1 -1 0
-2 1 0
-1 1 1
-*/
