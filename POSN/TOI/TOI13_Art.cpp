@@ -7,60 +7,57 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-const int N=1e6+1;
 
-struct Non{
-    int pos,high,color;
+const int N = 1e6 + 10;
+int n,k,a,b,c,d,pre,ans;
+vector<tuple<int,int,int>> event;
 
-    bool operator <(const Non &rhs)const{
-        return pos<rhs.pos;
+struct Fenwick{
+    int fw[N];
+
+    Fenwick(){
+        forr(i,0,N)fw[i] = 0;
     }
-};
 
-vector<Non> A;
-int fw[N];
-
-void update(int idx,int val){
-    for(int i=idx;i<=N;i+=(i&-i))fw[i]+=val;
-}
-
-int query(int idx){
-    int sum=0;
-    for(int i=idx;i>0;i-=(i&-i))sum+=fw[i];
-    return sum;
-}
-
-int find(int t){
-    int l=1,r=N,m;
-
-    while(l<r){
-        m=(l+r)>>1;
-
-        if(query(m)<=t)r=m;
-        else l=m+1;
+    void update(int idx, int val){
+        for(int i=idx;i<N;i+=i&-i)fw[i] += val;
     }
-    return l;
-}
+
+    int query(int idx){
+        int sum = 0;
+        for(int i=idx;i>0;i-=i&-i)sum += fw[i];
+        return sum;
+    }
+
+    int find(int t){
+        int l = 1, r = N-1, m;
+        while(l<r){
+            m = (l+r) >> 1;
+            if(query(m)>t)l = m + 1;
+            else r = m;
+        }
+        return l;
+    }
+}fw;
 
 int main(){macos;
 
-    int n,t;
-    cin >> n >> t;
+    cin >> n >> k;
     forr(i,0,n){
-        int s,h,w,o;
-        cin >> s >> h >> w >> o;
-        A.push_back({s,h,o});
-        A.push_back({s+w,h,-o});
+        cin >> a >> b >> c >> d;
+        event.push_back({a,b,d});
+        event.push_back({a+c,b,-d});
     }
-    sort(A.begin(),A.end());
 
-    int ans=0,prev=0;
-    for(auto [x,h,o]:A){
-        ans+=(x-prev)*(find(t-1)-find(t));
-        prev=x;
-        update(1,o);
-        update(h+1,-o);
+    sort(event.begin(),event.end());
+
+    for(auto[x,h,o]:event){
+        ans += (x-pre)*(fw.find(k-1)-fw.find(k));
+        pre = x;
+        fw.update(1,o);
+        fw.update(h+1,-o);
     }
+    
     cout << ans;
 
     return 0;
