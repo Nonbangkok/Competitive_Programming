@@ -8,22 +8,26 @@
 typedef long long ll;
 using namespace std;
 
-const int N = 21;
-double a[N][N],dp[1<<N];
+const int N = 22, M = 1e9 + 7;
 int n;
+ll a[N][N],dp[1<<N];
 
 int main(){macos;
 
     cin >> n;
-    forr(i,0,n)forr(j,0,n)cin >> a[i][j],a[i][j] /= 100.0;
+    forr(i,1,n+1)forr(j,1,n+1)cin >> a[i][j];
 
-    dp[0] = 1.0;
+    dp[0] = 1LL;
     forr(i,0,1<<n){
-        int j = __builtin_popcount(i);
-        forr(k,0,n)dp[i|(1<<k)] = max(dp[i|(1<<k)],dp[i]*a[j][k]);
+        if(!dp[i])continue;
+        int j = __builtin_popcount(i) + 1;
+        forr(k,1,n+1){
+            if(!a[j][k]||i&(1<<(k-1)))continue;
+            dp[i|(1<<(k-1))] = (dp[i|(1<<(k-1))] + dp[i]) % M;
+        }
     }
 
-    coutf(12,dp[(1<<n)-1]*100.0);
+    cout << dp[(1<<n)-1];
 
     return 0;
 }
