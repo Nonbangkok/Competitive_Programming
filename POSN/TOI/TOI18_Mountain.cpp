@@ -9,26 +9,27 @@ typedef long long ll;
 using namespace std;
 
 const int N = 510;
-ll n,m,ans,x;
+int n,m;
+ll ans,x;
 ll dp[N][N];
-pair<ll,ll> coor[N];
+pair<ll,ll> a[N];
 
 int main(){macos;
 
     cin >> n >> m;
-    forr(i,0,n)cin >> coor[i].first >> coor[i].second;
+    forr(i,1,n+1)cin >> a[i].first >> a[i].second;
 
-    forr(i,0,n)forr(j,0,n)dp[i][j] = LLONG_MAX;
-    dp[0][0] = 0LL;
-    forr(j,1,n)forr(i,1,n)forr(k,0,n)
-        dp[i][j] = min(dp[i][j],max(dp[k][j-1],abs(coor[i].first-coor[k].first)+abs(coor[i].second-coor[k].second)));
+    forr(i,1,n+1)forr(j,0,n)dp[i][j] = 1e18;
+    dp[1][0] = 0LL;
+    forr(food,1,n)forr(i,1,n+1)forr(j,1,n+1)
+        dp[i][food] = min(dp[i][food],max(dp[j][food-1],abs(a[i].first-a[j].first)+abs(a[i].second-a[j].second)));
 
     while(m--){
         cin >> x;
-        forr(i,1,n)if(dp[n-1][i]<=x){ans+=i;break;}
-        // ans += lower_bound(dp[n-1],dp[n-1]+n,x,greater<ll>()) - dp[n-1];
+        forr(i,1,n)if(dp[n][i]<=x){ans += i;break;}
+        // ans += lower_bound(dp[n]+1,dp[n]+n+1,x,greater<ll>()) - dp[n];
     }
-
+    
     cout << ans;
 
     return 0;

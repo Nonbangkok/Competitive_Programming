@@ -7,30 +7,33 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
+
+int n,m,a,b,pre=1,color,des;
+ll ans;
+char ch;
+unordered_map<char,int> mp = {{'R',0},{'G',1},{'B',2}};
+vector<pair<int,int>> event;
+
 int main(){macos;
 
-    vector<pair<int,int>> time;
-    int n,m,a,b,meat;
-    char ch;
-    cin >> n >> m;
-    forr(i,0,m){
+    cin >> m >> n;
+    forr(i,0,n){
         cin >> a >> b;
-        time.push_back({a,0});
-        time.push_back({b,1});
+        event.push_back({a,1});
+        event.push_back({b+1,-1});
     }
-    sort(time.begin(),time.end());
+    event.push_back({m+1,0});
     cin >> ch;
-    if(ch=='R')meat=1;
-    else if(ch=='G')meat=2;
-    else meat=3;
+    des = mp[ch];
 
-    int color=1,ans=0,prev=0;
-    for(auto [i,d]:time){
+    sort(event.begin(),event.end());
 
+    for(auto [x,t]:event){
+        ans += (x-pre)*((des-color+3)%3);
+        pre = x;
+        color = (color + t) % 3;
     }
     cout << ans;
-
-    //not finished
 
     return 0;
 }
