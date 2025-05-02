@@ -9,7 +9,7 @@ typedef long long ll;
 using namespace std;
 
 struct Non{
-    int v,w,c,o;
+    int v,w,o,p;
 
     bool operator < (const Non &rhs)const{
         if(w!=rhs.w)return w>rhs.w;
@@ -17,14 +17,10 @@ struct Non{
     }
 };
 
-struct Graph{
-    int v,w;
-};
-
 const int N = 110;
-int n,m,st,des,cap,a,b;
-int cost[N],dis[2][N][N],c;
-vector<Graph> adj[N];
+int n,st,des,cap,m,a,b,c;
+int dis[2][N][N],cost[N];
+vector<pair<int,int>> adj[N];
 priority_queue<Non> q;
 
 int main(){macos;
@@ -41,18 +37,17 @@ int main(){macos;
     forr(i,1,n+1)forr(j,0,cap+1)dis[0][i][j] = dis[1][i][j] = 1e9;
     q.push({st,dis[0][st][0]=0,0,0});
     while(!q.empty()){
-        auto [u,wei,used,oil] = q.top();
+        auto [u,wei,o,p] = q.top();
         q.pop();
 
-        if(oil<cap&&dis[used][u][oil+1]>dis[used][u][oil]+cost[u])
-            q.push({u,dis[used][u][oil+1]=dis[used][u][oil]+cost[u],used,oil+1});
-        if(!used&&dis[1][u][cap]>dis[0][u][oil])
-            q.push({u,dis[1][u][cap]=dis[0][u][oil],1,cap});
+        if(dis[p][u][o]<wei)continue;
+        if(o<cap&&dis[p][u][o+1]>dis[p][u][o]+cost[u])
+            q.push({u,dis[p][u][o+1]=dis[p][u][o]+cost[u],o+1,p});
+        if(!p&&dis[1][u][cap]>dis[0][u][o])
+            q.push({u,dis[1][u][cap]=dis[0][u][o],cap,1});
 
-        for(auto [v,w]:adj[u]){
-            if(oil-w>=0&&dis[used][v][oil-w]>dis[used][u][oil])
-                q.push({v,dis[used][v][oil-w]=dis[used][u][oil],used,oil-w});
-        }
+        for(auto[v,w]:adj[u])
+            if(o>=w&&dis[p][v][o-w]>dis[p][u][o])q.push({v,dis[p][v][o-w]=dis[p][u][o],o-w,p});
     }
 
     cout << dis[1][des][cap];

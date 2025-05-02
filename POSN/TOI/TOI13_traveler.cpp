@@ -2,90 +2,53 @@
 #define coutf(n, m) cout << fixed << setprecision(n) << m
 #define forr(i, a, n) for (int i = a; i < n; i++)
 #define forl(i, a, n) for (int i = a; i > n; i--)
-#define macos ios::sync_with_stdio(0);cin.tie(0)
+#define macos ios::sync_with_stdio(0);cin.tie(0);cout.tie(0)
 #define endll "\n"
 #define sp " "
 typedef long long ll;
 using namespace std;
-//Dijkstra's Algo
 
 struct Non{
-    ll node;
-    ll wei;
+    int v;
+    ll w;
 
-    bool operator < (const Non &rhs) const{
-        return wei>rhs.wei;
+    bool operator < (const Non &rhs)const{
+        if(w!=rhs.w)return w>rhs.w;
+        return v>rhs.v;
     }
 };
 
-int main() {macos;
+const int N = 1e4 + 10;
+int n,m,st,des,a,b,x;
+ll c,k,mn = 1e18;
+ll dis[2][N];
+vector<Non> adj[N];
+priority_queue<Non> q;
 
-    int n,m,k,u,v,src,des;
-    ll w;
-    cin >> n >> m >> src >> des >> k;
-    vector<Non> adj[n];
-    forr(i,0,m){
-        cin >> u >> v >> w;
-        adj[u].push_back({v,w});
-        adj[v].push_back({u,w});
-    }
-
-    vector<int> dis(n,INT_MAX);
-    priority_queue<Non> q;
-    q.push({src,0});
-    dis[src]=0;
-
+void dijkstra(int st, int s){
+    forr(i,0,n)dis[s][i] = 1e18;
+    q.push({st,dis[s][st]=0LL});
     while(!q.empty()){
-        ll parent = q.top().node;
-        ll weight = q.top().wei;
+        int u = q.top().v;
         q.pop();
-
-        for(auto child : adj[parent]){
-            if(dis[child.node]>weight+child.wei){
-                dis[child.node]=weight+child.wei;
-                q.push({child.node,dis[child.node]});
-            }
-        }
+        for(auto [v,w]:adj[u])
+            if(dis[s][v]>dis[s][u]+w)q.push({v,dis[s][v]=dis[s][u]+w});
     }
+}
 
-    if(dis[des]<=k){
-        cout << des << sp << dis[des] << sp << 0;
-    }else{
+int main(){macos;
 
-        vector<int> disb(n,INT_MAX);
-        q.push({des,0});
-        disb[des]=0;
-
-        while(!q.empty()){
-            int parent = q.top().node;
-            int weight = q.top().wei;
-            q.pop();
-
-            for(auto child : adj[parent]){
-                if(disb[child.node]>weight+child.wei){
-                    disb[child.node]=weight+child.wei;
-                    q.push({child.node,disb[child.node]});
-                }
-            }
-        }
-        int inx=0,mn=INT_MAX;
-        forr(i,0,n){
-            if(dis[i]<=k&&mn>disb[i]){
-                mn=disb[i];
-                inx=i;
-            }
-        }
-        cout << inx << sp << dis[inx] << sp << mn;
-
-        // cout << endll << endll;
-        // forr(i,0,n){
-        //     cout << dis[i] << sp;
-        // }
-        // cout << endll;
-        // forr(i,0,n){
-        //     cout << disb[i] << sp;
-        // }
+    cin >> n >> m >> st >> des >> k;
+    forr(i,0,m){
+        cin >> a >> b >> c;
+        adj[a].push_back({b,c});
+        adj[b].push_back({a,c});
     }
-    
+    dijkstra(st,0);
+    if(dis[0][des]<=k){cout << des << sp << dis[0][des] << sp << 0;return 0;}
+    dijkstra(des,1);
+    forl(i,n-1,-1)if(i!=des&&dis[0][i]<=k&&mn>=dis[1][i])mn = dis[1][i],x = i;
+    cout << x << sp << dis[0][x] << sp << mn;
+
     return 0;
 }

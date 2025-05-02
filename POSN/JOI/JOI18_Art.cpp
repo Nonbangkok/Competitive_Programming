@@ -8,20 +8,23 @@
 typedef long long ll;
 using namespace std;
 
-const int N = 1e5 + 10;
-int n,q,x;
-int qs[N];
+const int N = 5e5 + 10;
+ll n,ans;
+ll dp[N];
+pair<ll,ll> a[N];
 
 int main(){macos;
 
-    cin >> n >> q;
-    forr(i,1,n+1)cin >> qs[i],qs[i] += qs[i-1];
-    forl(i,n-1,0)qs[i] = min(qs[i],qs[i+1]);
+    cin >> n;
+    forr(i,0,n)cin >> a[i].first >> a[i].second;
+    sort(a,a+n);
 
-    while(q--){
-        cin >> x;
-        cout << upper_bound(qs+1,qs+n+1,x)-qs-1 << endll;
+    forr(i,0,n){
+        dp[i] = max(dp[i-1] + a[i-1].first - a[i].first + a[i].second,a[i].second);
+        ans = max(ans,dp[i]);
     }
 
+    cout << ans;
+    
     return 0;
 }

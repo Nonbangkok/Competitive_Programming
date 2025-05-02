@@ -8,20 +8,18 @@
 typedef long long ll;
 using namespace std;
 
-const int N = 1e5 + 10;
-int n,q,x;
-int qs[N];
+int n;
+
+int solve(int x){
+    if(x<=6)return 1;
+    else if(x&1)return solve(x-5) + 1;
+    return solve(x-6) + 1;
+}
 
 int main(){macos;
 
-    cin >> n >> q;
-    forr(i,1,n+1)cin >> qs[i],qs[i] += qs[i-1];
-    forl(i,n-1,0)qs[i] = min(qs[i],qs[i+1]);
-
-    while(q--){
-        cin >> x;
-        cout << upper_bound(qs+1,qs+n+1,x)-qs-1 << endll;
-    }
+    cin >> n;
+    cout << solve(n);
 
     return 0;
 }
