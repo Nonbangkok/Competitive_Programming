@@ -16,7 +16,7 @@ int main(){macos;
 
     cin >> n >> m;
     forr(i,1,n+1)cin >> v[i] >> w[i];
-
+    
     forr(i,1,n+1)forr(j,0,m+1){
         if(j-w[i]>=0)dp[i][j] = max(dp[i-1][j],dp[i-1][j-w[i]]+v[i]);
         else dp[i][j] = dp[i-1][j];
