@@ -8,21 +8,21 @@
 typedef long long ll;
 using namespace std;
 
-const int N = 2e3 + 10;
-ll n,k,a,b=1LL,ans;
-ll arr[N];
+const int N = 1e6 + 10;
+int n,m;
+ll ans;
+int mountain[N];
+pair<int,int> plane[N];
 
 int main(){macos;
 
-    cin >> n >> k;
-    forr(i,1,n+1)cin >> arr[i];
-    a = arr[1];
-    forr(i,2,n+1){
-        b = a * arr[i];
-        a += arr[i];
-        ans += b;
-    }
-    cout << ans;
+    cin >> n >> m;
+    forr(i,1,n+1)cin >> mountain[i];
+    forr(i,1,m+1)cin >> plane[i].first,plane[i].second = i;
+    sort(plane+1,plane+m+1);
+
+    forr(i,1,n+1)cout << mountain[i] << sp;cout << endll;
+    forr(i,1,m+1)cout << plane[i].first << sp;cout << endll;
 
     return 0;
 }

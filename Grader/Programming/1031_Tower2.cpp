@@ -7,27 +7,27 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-const int N=1e4+10;
 
-vector<int> adj[N];
+const int N = 1e4 + 10;
+int k,n,m,a,b,ans;
 int dp[N];
+vector<int> adj[N];
 
 int main(){macos;
 
-    int k,n,m,a,b;
     cin >> k >> n >> m;
     forr(i,0,m){
         cin >> a >> b;
         adj[a].push_back(b);
     }
-    forr(i,2,n+1)dp[i]=1e9;
-    forr(i,1,n+1)for(auto j:adj[i])dp[j]=min(dp[j],dp[i]+1);
-    forl(i,n,0){
-        if(dp[i]<=k){
-            cout << i;
-            break;
-        }
+
+    forr(i,2,n+1)dp[i] = 1e9;
+    forr(i,1,n+1){
+        for(int j:adj[i])dp[j] = min(dp[j],dp[i]+1);
+        if(dp[i]<=k)ans = i;
     }
+    
+    cout << ans;
 
     return 0;
 }

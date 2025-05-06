@@ -8,21 +8,19 @@
 typedef long long ll;
 using namespace std;
 
-const int N = 2e3 + 10;
-ll n,k,a,b=1LL,ans;
-ll arr[N];
+const int N = 1e5 + 10;
+ll n,k,x,mx;
+ll qs[N];
 
 int main(){macos;
 
     cin >> n >> k;
-    forr(i,1,n+1)cin >> arr[i];
-    a = arr[1];
-    forr(i,2,n+1){
-        b = a * arr[i];
-        a += arr[i];
-        ans += b;
+    forr(i,1,n+1)cin >> qs[i],qs[i] += qs[i-1];
+
+    forr(i,1,n+1){
+        mx = max(mx,min(qs[i],qs[n]-qs[i]));
     }
-    cout << ans;
+    cout << mx;
 
     return 0;
 }
