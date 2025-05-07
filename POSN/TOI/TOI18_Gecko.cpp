@@ -7,7 +7,7 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-const int N=20000;
+
 struct Non{
     int v,w;
 
@@ -16,61 +16,43 @@ struct Non{
         return v>rhs.v;
     }
 };
-
-vector<Non> adj[N];
-vector<int> des,par;
-vector<int> dis(N,1e9);
-vector<bool> visited(N,false);
-priority_queue<Non> q;
-set<pair<int,int>> ans;
-
-void findpar(int x){
-    if(par[x]==x)return;
-    ans.insert({min(x,par[x]),max(x,par[x])});
-    findpar(par[x]);
-}
+int cnt;
+const int N = 2e4 + 10;
+int n,m,k,st,a,b,c;
+int dis[N],gecko[N];
+vector<pair<int,int>> adj[N];
+vector<int> adj2[N];
+priority_queue<Non> pq;
 
 int main(){macos;
 
-    int n,m,k,src,a,b,c;
-    cin >> n >> m >> k >> src;
-
-    forr(i,0,k){
-        cin >> a;
-        des.push_back(a);
-    }
-
+    cin >> n >> m >> k >> st;
+    forr(i,0,k)cin >> gecko[i];
     forr(i,0,m){
         cin >> a >> b >> c;
         adj[a].push_back({b,c});
         adj[b].push_back({a,c});
     }
 
-    dis[src]=0;
-    q.push({src,0});
-    forr(i,0,n)par.push_back(i);
-    while(!q.empty()){
-        int node=q.top().v;
-        q.pop();
-
-        if(visited[node])continue;
-        visited[node]=true;
-
-        for(auto child:adj[node]){
-            if(dis[child.v]>dis[node]+child.w){
-                dis[child.v]=dis[node]+child.w;
-                par[child.v]=node;
-                q.push({child.v,dis[child.v]});
+    forr(i,0,n)dis[i] = 1e9;
+    pq.push({st,dis[st]=0});
+    while(!pq.empty()){
+        auto [u,wei] = pq.top();
+        pq.pop();
+        if(dis[u]<wei)continue;
+        for(auto[v,w]:adj[u]){
+            if(dis[v]>dis[u]+w){
+                pq.push({v,dis[v]=dis[u]+w});
+                adj2[v].push_back(u);
+                cnt++;
             }
         }
     }
 
     forr(i,0,k){
-        cout << dis[des[i]] << sp;
-        findpar(des[i]);
+        cout << dis[gecko[i]] << sp;
     }
-    cout << endll << ans.size() << endll;
-    for(auto i:ans)cout << i.first << sp << i.second << endll;
-
+    cout << endll;
+    cout << cnt;
     return 0;
 }
