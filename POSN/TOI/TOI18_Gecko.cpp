@@ -16,13 +16,23 @@ struct Non{
         return v>rhs.v;
     }
 };
-int cnt;
+
 const int N = 2e4 + 10;
-int n,m,k,st,a,b,c;
-int dis[N],gecko[N];
+int n,m,k,st,a,b,c,cnt;
+int dis[N],gecko[N],indeg[N];
+bool vis[N];
 vector<pair<int,int>> adj[N];
-vector<int> adj2[N];
 priority_queue<Non> pq;
+queue<int> q;
+set<int> adj2[N];
+
+void dfs(int u, int p){
+    for(auto[v,w]:adj[u]){
+        if(v==p||dis[v]+w!=dis[u])continue;
+        adj2[u].insert(v);
+        dfs(v,u);
+    }
+}
 
 int main(){macos;
 
@@ -43,16 +53,26 @@ int main(){macos;
         for(auto[v,w]:adj[u]){
             if(dis[v]>dis[u]+w){
                 pq.push({v,dis[v]=dis[u]+w});
-                adj2[v].push_back(u);
-                cnt++;
             }
         }
     }
 
-    forr(i,0,k){
-        cout << dis[gecko[i]] << sp;
+    forr(i,0,k)cout << dis[gecko[i]] << sp,dfs(gecko[i],-1);
+    forr(i,0,n){
+        cnt += adj2[i].size();
+        for(int j:adj2[i])indeg[j]++;
     }
-    cout << endll;
-    cout << cnt;
+    cout << endll << cnt << endll;
+
+    forr(i,0,k)if(!indeg[gecko[i]])q.push(gecko[i]);
+    while(!q.empty()){
+        int u = q.front();
+        q.pop();
+        for(int v:adj2[u]){
+            cout << min(u,v) << sp << max(v,u) << endll;
+            if(!--indeg[v])q.push(v);
+        }
+    }
+
     return 0;
 }

@@ -2,40 +2,44 @@
 #define coutf(n, m) cout << fixed << setprecision(n) << m
 #define forr(i, a, n) for (int i = a; i < n; i++)
 #define forl(i, a, n) for (int i = a; i > n; i--)
-#define macos ios::sync_with_stdio(0);cin.tie(0)
+#define macos ios::sync_with_stdio(0);cin.tie(0);cout.tie(0)
 #define endll "\n"
 #define sp " "
 typedef long long ll;
 using namespace std;
 
-struct Non{
-    int a,b;
+const int N = 1e5 + 10, SZ = 2 * N;
+ll n,x,y,ans;
+ll a[N];
 
-    bool operator < (const Non &rhs)const{
-        return b<rhs.b;
+struct Fenwick{
+    ll fw[SZ];
+
+    Fenwick(){
+        forr(i,0,SZ)fw[i] = 0;
     }
-};
 
-int main() {macos;
+    void update(ll idx, ll val){
+        for(ll i=idx;i<SZ;i+=i&-i)fw[i] += val;
+    }
 
-    int n,a,b;
+    ll query(ll idx){
+        ll sum = 0;
+        for(ll i=idx;i>0;i-=i&-i)sum += fw[i];
+        return sum;
+    }
+}fw1,fw2;
+
+int main(){macos;
+
     cin >> n;
-    vector<Non> A;
-    forr(i,0,n){
-        cin >> a >> b;
-        A.push_back({a,b});
+    forr(i,1,n+1)cin >> x >> y,a[y] = x;
+    forr(i,1,n+1){
+        ans += fw1.query(N-a[i]) + fw2.query(N-a[i]) * a[i];
+        fw1.update(N-a[i],a[i]),fw2.update(N-a[i],1);
     }
-    sort(A.begin(),A.end());
 
-    ll sum=0;
-    forr(i,0,n){
-        forr(j,i,n){
-            if(A[i].a>A[j].a){
-                sum+=A[i].a+A[j].a;
-            }
-        }
-    }
-    cout << sum;
+    cout << ans;
 
     return 0;
 }

@@ -8,26 +8,26 @@
 typedef long long ll;
 using namespace std;
 
-const int N = 2e5 + 10;
-int n;
-ll a[N],mx;
-stack<int> st;
+const int N = 1e6 + 10;
+int n,k,x,l=1,ml,mr;
+int a[N],mp[N];
+set<int> s;
 
 int main(){macos;
 
-    cin >> n;
-    forr(i,0,n)cin >> a[i];
-    forr(i,0,n+1){
-        while(!st.empty()&&a[st.top()]>=a[i]){
-            int j = st.top();
-            st.pop();
-            if(st.empty())mx = max(mx,i*a[j]);
-            else mx = max(mx,(i-st.top()-1)*a[j]);
+    cin >> n >> k;
+    forr(r,1,n+1){
+        cin >> a[r];
+        s.insert(a[r]);
+        mp[a[r]]++;
+        while(s.size()>k){
+            mp[a[l]]--;
+            if(!mp[a[l]])s.erase(a[l]);
+            l++;
         }
-        st.push(i);
+        if(r-l+1>=mr-ml+1)ml = l, mr = r;
     }
-
-    cout << mx;
+    cout << ml << sp << mr;
 
     return 0;
 }

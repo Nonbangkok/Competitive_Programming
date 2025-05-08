@@ -10,24 +10,19 @@ using namespace std;
 
 const int N = 2e5 + 10;
 int n;
-ll a[N],mx;
+int a[N];
 stack<int> st;
 
 int main(){macos;
 
     cin >> n;
-    forr(i,0,n)cin >> a[i];
-    forr(i,0,n+1){
-        while(!st.empty()&&a[st.top()]>=a[i]){
-            int j = st.top();
-            st.pop();
-            if(st.empty())mx = max(mx,i*a[j]);
-            else mx = max(mx,(i-st.top()-1)*a[j]);
-        }
+    forr(i,1,n+1){
+        cin >> a[i];
+        while(!st.empty()&&a[st.top()]>=a[i])st.pop();
+        if(!st.empty())cout << st.top() << sp;
+        else cout << 0 << sp;
         st.push(i);
     }
-
-    cout << mx;
 
     return 0;
 }

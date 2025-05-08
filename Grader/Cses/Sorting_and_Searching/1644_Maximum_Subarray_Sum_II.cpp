@@ -7,27 +7,24 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-
+ 
 const int N = 2e5 + 10;
-int n;
-ll a[N],mx;
-stack<int> st;
-
+ll n,a,b,x,mx = -1e18;
+ll qs[N];
+deque<ll> dq;
+ 
 int main(){macos;
-
-    cin >> n;
-    forr(i,0,n)cin >> a[i];
-    forr(i,0,n+1){
-        while(!st.empty()&&a[st.top()]>=a[i]){
-            int j = st.top();
-            st.pop();
-            if(st.empty())mx = max(mx,i*a[j]);
-            else mx = max(mx,(i-st.top()-1)*a[j]);
-        }
-        st.push(i);
+ 
+    cin >> n >> a >> b;
+    forr(i,1,n+1)cin >> qs[i],qs[i] += qs[i-1];
+    forr(i,a,n+1){
+        while(!dq.empty()&&dq.front()<i-b)dq.pop_front();
+        while(!dq.empty()&&qs[dq.back()]>=qs[i-a])dq.pop_back();
+        dq.push_back(i-a);
+        mx = max(mx,qs[i]-qs[dq.front()]);
     }
-
+ 
     cout << mx;
-
+ 
     return 0;
 }
