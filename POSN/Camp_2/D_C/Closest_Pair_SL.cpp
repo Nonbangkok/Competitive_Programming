@@ -2,8 +2,8 @@
 using namespace std;
 
 int n;
-vector<pair<int,int> > pts;
-set<pair<int,int> > s;
+vector<pair<int,int>> pts;
+set<pair<int,int>> s;
 long long ans = 1e18;
 
 int main(){

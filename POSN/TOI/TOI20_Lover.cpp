@@ -22,7 +22,7 @@ int main(){macos;
     }
 
     for(int r=2;r<=n;r+=2){
-        dp[r] = 1e9;
+        dp[r] = 1e18;
         for(int l=0;l<r;l+=2){
             int m = (l+r) >> 1;
             if(odd[m]-odd[l]>v||even[r]-even[m]>w)continue;
@@ -30,7 +30,7 @@ int main(){macos;
         }
     }
 
-    cout << (dp[n]!=1e9?dp[n]:-1);
+    cout << (dp[n]!=1e18?dp[n]:-1);
 
     return 0;
 }

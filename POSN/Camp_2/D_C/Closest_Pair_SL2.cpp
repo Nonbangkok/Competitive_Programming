@@ -33,7 +33,6 @@ int main(){macos;
             ans = min(ans,dx*dx+dy*dy);
         }
         s.insert({pts[i].second,pts[i].first});
-        cout << pts[i].first << sp << pts[i].second << sp << d << sp << ans << endll;
     }
 
     cout << ans;

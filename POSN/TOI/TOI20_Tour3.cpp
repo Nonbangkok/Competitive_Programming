@@ -38,9 +38,9 @@ int main(){macos;
     ll j = 0, ans = LLONG_MAX;
     forr(i,0,Pts.size()){
         d = sqrt(ans) + 1;
-        while(Pts[j].first-Pts[i].first>=d)s.erase({Pts[j].second,Pts[j].first}),j++;
+        while(Pts[i].first-Pts[j].first>=d)s.erase({Pts[j].second,Pts[j].first}),j++;
         auto l = s.lower_bound({Pts[i].second-d,Pts[i].first});
-        auto r = s.lower_bound({Pts[i].second+d,Pts[i].first});
+        auto r = s.upper_bound({Pts[i].second+d,Pts[i].first});
         for(auto it=l;it!=r;it++){
             ll dx = (Pts[i].first-it->second);
             ll dy = (Pts[i].second-it->first);
