@@ -8,24 +8,21 @@
 typedef long long ll;
 using namespace std;
 
-stack<pair<int,int>> st;
-ll ans,sum,n,l;
-string s;
+const int N = 2e5 + 10;
+ll n,j,ans;
+ll a[N];
+map<ll,ll> mp;
 
 int main(){macos;
 
-    cin >> n >> s;
-    forr(i,0,n){
-        if(s[i]=='T'){
-            l++;
-            while(!st.empty()&&st.top().second<l)st.pop();
-            if(!st.empty())sum += i - st.top().first + l - 1;
-            else sum += i + 1;
-            st.push({i,l});
-        }else l = 0;
-        ans += sum;
+    cin >> n;
+    j = 1;
+    forr(i,1,n+1){
+        cin >> a[i];
+        mp[a[i]]++;
+        while(mp[a[i]]>1)mp[a[j++]]--;
+        ans += i - j + 1;
     }
-
     cout << ans;
 
     return 0;

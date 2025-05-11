@@ -12,7 +12,7 @@ const int N = 2e5 + 10;
 int n,q,cmd,k,x;
 int a[N];
 
-struct seg{
+struct Seg{
     int seg[4*N];
 
     void build(int l, int r, int node, int sign){
