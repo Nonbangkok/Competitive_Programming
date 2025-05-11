@@ -7,29 +7,50 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
-const int N=2e5+10;
 
-vector<int> par(N),times(N);
-int fp(int x){return (x==par[x]?par[x]:par[x]=fp(par[x]));}
+const int N = 4e5 + 10;
+int n,m,q,a,b;
+int p[N],dp[21][N],lv[N],indeg[N];
+vector<int> adj[N];
+
+void dfs(int u,int p,int l){
+    dp[0][u] = p,lv[u] = l;
+    for(int v:adj[u])dfs(v,u,l+1);
+}
+
+int lca(int a,int b){
+    if(lv[a]<lv[b]) swap(a,b);
+    forl(i,20,-1)if(lv[dp[i][a]]>=lv[b]) a = dp[i][a];
+    if(a==b) return a;
+    forl(i,20,-1)if(dp[i][a]!=dp[i][b]) a = dp[i][a],b = dp[i][b];
+    return dp[0][a];
+}
+
+int fp(int x){
+    if(p[x]!=x)p[x] = fp(p[x]);
+    return p[x];
+}
 
 int main(){macos;
 
-    int n,m,q,u,v;
     cin >> n >> m >> q;
-
-    forr(i,0,n)par[i]=i;
+    forr(i,1,n+m+1)p[i] = i;
     forr(i,1,m+1){
-        cin >> u >> v;u--;v--;
-        if(fp(u)==fp(v))continue;
-        times[u]=times[v]=i;
-        par[par[v]]=par[u];
+        cin >> a >> b;
+        a = fp(a+m),b = fp(b+m);
+        if(a==b)continue;
+        p[a] = i,p[b] = i;
+        indeg[a]++,indeg[b]++;
+        adj[i].push_back(a),adj[i].push_back(b);
     }
-    forr(i,1,q+1){
-        cin >> u >> v;u--;v--;
-        if(fp(u)!=fp(v))cout << -1 << endll;
-        else cout << min(times[u],times[v]) << endll;
+
+    forr(i,1,m+1)if(!indeg[i])dfs(i,i,1);
+    forr(i,1,21)forr(j,1,n+m+1)dp[i][j] = dp[i-1][dp[i-1][j]];
+
+    while(q--){
+        cin >> a >> b;
+        cout << (fp(a+m)==fp(b+m)?lca(a+m,b+m):-1) << endll;
     }
-    forr(i,0,n)cout << par[i] << sp;cout << endll;
-    forr(i,0,n)cout << times[i] << sp;
+
     return 0;
 }
