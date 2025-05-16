@@ -8,21 +8,20 @@
 typedef long long ll;
 using namespace std;
 
-const int N = 1e6 + 10;
-int n,m;
-ll ans;
-int mountain[N];
-pair<int,int> plane[N];
+int n,x;
+vector<int> lis;
 
 int main(){macos;
 
-    cin >> n >> m;
-    forr(i,1,n+1)cin >> mountain[i];
-    forr(i,1,m+1)cin >> plane[i].first,plane[i].second = i;
-    sort(plane+1,plane+m+1);
+    cin >> n;
+    forr(i,0,n){
+        cin >> x;
+        auto it = lower_bound(lis.begin(),lis.end(),x);
+        if(it==lis.end())lis.push_back(x);
+        else *it = x;
+    }
 
-    forr(i,1,n+1)cout << mountain[i] << sp;cout << endll;
-    forr(i,1,m+1)cout << plane[i].first << sp;cout << endll;
+    cout << lis.size();
 
     return 0;
 }
