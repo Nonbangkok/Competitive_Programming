@@ -13,7 +13,7 @@ int main(){macos;
     int l,n,sum = 0,i;
     cin >> l >> n;
     for(i=1;sum<n;i++)sum += i;
-    cout << ceil(double(i-1)/l);    
+    cout << ceil(double(i-1)/l);
 
     return 0;
 }
