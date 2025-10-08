@@ -7,15 +7,20 @@
 #define sp " "
 typedef long long ll;
 using namespace std;
+
+const int N = 1e6 + 10;
+int n,t;
+int A[N],B[N];
+char ch;
+
 int main() {macos;
 
-    char ch;
-    int n,t;
     cin >> n >> t;
-    int A[n],B[n];
     forr(i,0,n)cin >> A[i];
     forr(i,0,n)cin >> B[i];
+
     int ia=0,ib=0,rema=A[0],remb=B[0],sca=0,scb=0;
+
     forr(i,0,t){
         cin >> ch;
         if(ch=='A'){
