@@ -8,16 +8,24 @@
 typedef long long ll;
 using namespace std;
 
-struct Table{
-    int a[4][4];
+const int N = 4;
 
+struct Board{
+    int board[N][N];
+
+    Board(){}
+
+    Board(int a[N][N]){
+        forr(i,0,N)forr(j,0,N)board[i][j] = a[i][j];
+    }
+    
     int distance(){
         int dis = 0;
-        forr(i,0,4)forr(j,0,4){
+        forr(i,0,N)forr(j,0,N){
             int x, y;
-            
-            if(a[i][j] == 0)x = 3,y = 3;
-            else x = (a[i][j]-1)/4,y = (a[i][j]-1)%4;
+
+            if(!board[i][j])x = N - 1, y = N - 1;
+            else x = (board[i][j]-1) / N, y= (board[i][j]-1) % N;
 
             dis += abs(i-x) + abs(j-y);
         }
@@ -25,60 +33,54 @@ struct Table{
     }
 
     void print(){
-        forr(i,0,4){
-            forr(j,0,4)cout << a[i][j] << sp;
+        forr(i,0,N){
+            forr(j,0,N)cout << board[i][j] << sp;
             cout << endll;
         }
         cout << endll;
     }
 
-    bool operator < (const Table &rhs)const{
-        forr(i,0,4)forr(j,0,4)
-            if(a[i][j]!=rhs.a[i][j])return a[i][j] < rhs.a[i][j];
+    bool operator < (const Board &rhs)const{
+        forr(i,0,N)forr(j,0,N)
+            if(board[i][j]!=rhs.board[i][j])return board[i][j] < rhs.board[i][j];
         return 0;
     }
 };
 
-struct Non{
-    Table a;
+struct Node{
+    Board board;
     int i, j, d, c;
 
-    Non(Table arr, int x, int y, int depth, int cost){
-        a = arr;
-        i = x;
-        j = y;
-        d = depth;
-        c = cost;
-    }
+    Node(Board a, int b, int e, int f, int g):board(a), i(b), j(e), d(f), c(g){}
 
-    bool operator < (const Non &rhs)const{
-        return d+c>rhs.d+rhs.c;
+    bool operator < (const Node &rhs)const{
+        return d + c > rhs.d + rhs.c;
     }
 };
 
 const int di[4] = {0,0,-1,1};
 const int dj[4] = {-1,1,0,0};
-priority_queue<Non> q;
-map<Table,bool> visited;
-map<Table,Table> pre;
-vector<Table> his;
+priority_queue<Node> q;
+map<Board,bool> vis;
+map<Board,Board> pre;
+vector<Board> his;
 
 int main(){macos;
 
-    Table mp;
-    int x,y;
+    Board mp;
+    int x, y;
 
-    forr(i,0,4)forr(j,0,4){
-        cin >> mp.a[i][j];
-        if(mp.a[i][j]==0)x = i, y = j;
+    forr(i,0,N)forr(j,0,N){
+        cin >> mp.board[i][j];
+        if(!mp.board[i][j])x = i, y = j;
     }
 
-    q.push(Non(mp,x,y,0,mp.distance()));
+    q.push(Node(mp,x,y,0,mp.distance()));
     while(!q.empty()){
         auto [u,i,j,d,c] = q.top();
         q.pop();
 
-        if(u.distance()==0){
+        if(!u.distance()){
             cout << d << endll << endll;
             his.push_back(u);
             while(pre.find(u)!=pre.end()){
@@ -90,20 +92,20 @@ int main(){macos;
             return 0;
         }
 
-        visited[u] = 1;
+        vis[u] = true;
 
         forr(k,0,4){
-            int ik = i+di[k];
-            int jk = j+dj[k];
-            Table v = u;
+            int ik = i + di[k];
+            int jk = j + dj[k];
+            Board v = u;
 
             if(ik<0||ik>=4||jk<0||jk>=4)continue;
 
-            swap(v.a[i][j],v.a[ik][jk]);
-            if(visited[v])continue;
+            swap(v.board[i][j],v.board[ik][jk]);
+            if(vis[v])continue;
 
             pre[v] = u;
-            q.push(Non(v,ik,jk,d+1,v.distance()));
+            q.push(Node(v,ik,jk,d+1,v.distance()));
         }
     }
 
